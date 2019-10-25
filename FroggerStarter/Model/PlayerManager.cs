@@ -15,18 +15,12 @@ namespace FroggerStarter.Model
         private const int PlayerMaxX = 600;
         private const int PlayerMinY = 55;
         private const int PlayerMaxY = 355;
+        private readonly double windowHeight;
+        private readonly double windowWidth;
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        ///     Gets the player canvas.
-        /// </summary>
-        /// <value>
-        ///     The player canvas.
-        /// </value>
-        public Canvas PlayerCanvas { get; }
 
         /// <summary>
         ///     Gets the player.
@@ -64,24 +58,16 @@ namespace FroggerStarter.Model
                 throw new ArgumentOutOfRangeException(nameof(windowWidth), "windowWidth must be >= 0");
             }
 
-            this.PlayerCanvas = new Canvas {
-                Height = windowHeight,
-                Width = windowWidth
-            };
+            this.windowHeight = windowHeight;
+            this.windowWidth = windowWidth;
 
             this.Player = new Player();
-            this.placePlayer();
+            this.SetPlayerToCenterOfBottomLane();
         }
 
         #endregion
 
         #region Methods
-
-        private void placePlayer()
-        {
-            this.PlayerCanvas.Children.Add(this.Player.Sprite);
-            this.SetPlayerToCenterOfBottomLane();
-        }
 
         /// <summary>
         ///     Sets the player to center of bottom lane.
@@ -89,8 +75,8 @@ namespace FroggerStarter.Model
         /// </summary>
         public void SetPlayerToCenterOfBottomLane()
         {
-            this.Player.X = this.PlayerCanvas.Width / 2 - this.Player.Width / 2;
-            this.Player.Y = this.PlayerCanvas.Height - this.Player.Height - BottomLaneOffset;
+            this.Player.X = this.windowWidth / 2 - this.Player.Width / 2;
+            this.Player.Y = this.windowHeight - this.Player.Height - BottomLaneOffset;
         }
 
         /// <summary>

@@ -99,7 +99,7 @@ namespace FroggerStarter.Controller
                     this.gameCanvas.Children.Add(vehicle.Sprite);
                 }
             }
-            this.gameCanvas.Children.Add(this.playerManager.PlayerCanvas);
+            this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
         }
 
         private void timerOnTick(object sender, object e)
