@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -21,9 +20,8 @@ namespace FroggerStarter.Model
         private const double TransformOriginY = 0.5;
         private const int VehicleRotationAngle = 180;
         private readonly RotateTransform vehicleRotateTransform;
-        private Canvas road;
-
         private readonly IEnumerable<Lane> lanes;
+        private double windowWidth;
 
         #endregion
 
@@ -48,6 +46,8 @@ namespace FroggerStarter.Model
                 throw new ArgumentOutOfRangeException(nameof(windowWidth), "windowWidth must be >= 0");
             }
 
+            this.windowWidth = windowWidth;
+
             this.lanes = new List<Lane> {
                 new Lane(2, VehicleTypes.Car, 1, VehicleDirections.Left),
                 new Lane(3, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
@@ -56,13 +56,21 @@ namespace FroggerStarter.Model
                 new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Right)
             };
 
+            var currLane = 0;
+            foreach (var lane in this.lanes) //TODO refactor
+            {
+                for (var currVehicle = 0; currVehicle < lane.Count; currVehicle++)
+                {
+                    var vehicle = lane[currVehicle];
+                    vehicle.Y = LaneOneLocation - LaneWidth * currLane;
+                    vehicle.X = 650 / lane.Count * currVehicle;
+                }
+
+                currLane++;
+            }
+
             this.vehicleRotateTransform = new RotateTransform {
                 Angle = VehicleRotationAngle
-            };
-
-            this.road = new Canvas {
-                Height = windowHeight,
-                Width = windowWidth
             };
         }
 
@@ -84,51 +92,6 @@ namespace FroggerStarter.Model
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        /// <summary>
-        ///     Creates the road.
-        ///     Postcondition: this.road is completed
-        /// </summary>
-        /// <returns>Completed road</returns>
-        public Canvas CreateRoad()
-        {
-            var distanceFromTop = LaneOneLocation;
-
-            foreach (var lane in this.lanes)
-            {
-                this.road = this.addLaneToRoad(lane, this.road, distanceFromTop);
-
-                distanceFromTop -= LaneWidth;
-            }
-
-            return this.road;
-        }
-
-        private Canvas addLaneToRoad(Lane lane, Canvas canvas, int distanceFromTop)
-        {
-            for (var i = 0; i < lane.Count; i++)
-            {
-                canvas = this.addVehicleToLane(lane, i, distanceFromTop, canvas);
-            }
-
-            return canvas;
-        }
-
-        private Canvas addVehicleToLane(Lane currentLane, int vehicleIndex, int distanceFromTop, Canvas canvas)
-        {
-            var vehicle = currentLane[vehicleIndex];
-            if (currentLane.Direction == VehicleDirections.Right)
-            {
-                vehicle.Sprite.RenderTransformOrigin = new Point(TransformOriginX, TransformOriginY);
-                vehicle.Sprite.RenderTransform = this.vehicleRotateTransform;
-            }
-
-            canvas.Children.Add(vehicle.Sprite);
-            Canvas.SetTop(vehicle.Sprite, distanceFromTop);
-            Canvas.SetLeft(vehicle.Sprite, this.road.Width / currentLane.Count * vehicleIndex);
-
-            return canvas;
         }
 
         /// <summary>
@@ -169,7 +132,7 @@ namespace FroggerStarter.Model
 
         private void respawnVehicleOnRight(GameObject vehicle)
         {
-            Canvas.SetLeft(vehicle.Sprite, this.road.Width);
+            Canvas.SetLeft(vehicle.Sprite, this.windowWidth); 
         }
 
         private void moveVehicleRight(Lane lane, GameObject vehicle)
@@ -187,7 +150,7 @@ namespace FroggerStarter.Model
 
         private bool vehicleHasCrossedRightEdge(GameObject vehicle)
         {
-            return !(Canvas.GetLeft(vehicle.Sprite) < this.road.Width + vehicle.Sprite.Width);
+            return !(Canvas.GetLeft(vehicle.Sprite) < this.windowWidth + vehicle.Sprite.Width);
         }
 
         private static void respawnVehicleOnLeft(GameObject vehicle)
