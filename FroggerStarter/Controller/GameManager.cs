@@ -110,7 +110,7 @@ namespace FroggerStarter.Controller
 
         private void moveVehiclesInLane(Lane lane)
         {
-            foreach (var vehicle in lane.Vehicles)
+            foreach (var vehicle in lane)
             {
                 this.roadManager.MoveVehicle(lane, vehicle);
                 this.checkForCollision(vehicle);

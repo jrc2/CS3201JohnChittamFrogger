@@ -100,7 +100,7 @@ namespace FroggerStarter.Model
 
         private Canvas addLaneToRoad(Lane lane, Canvas canvas, int distanceFromTop)
         {
-            for (var i = 0; i < lane.Vehicles.Count; i++)
+            for (var i = 0; i < lane.Count; i++)
             {
                 canvas = this.addVehicleToLane(lane, i, distanceFromTop, canvas);
             }
@@ -110,7 +110,7 @@ namespace FroggerStarter.Model
 
         private Canvas addVehicleToLane(Lane currentLane, int vehicleIndex, int distanceFromTop, Canvas canvas)
         {
-            var vehicle = currentLane.Vehicles[vehicleIndex];
+            var vehicle = currentLane[vehicleIndex];
             if (currentLane.Direction == VehicleDirections.Right)
             {
                 vehicle.Sprite.RenderTransformOrigin = new Point(TransformOriginX, TransformOriginY);
@@ -119,7 +119,7 @@ namespace FroggerStarter.Model
 
             canvas.Children.Add(vehicle.Sprite);
             Canvas.SetTop(vehicle.Sprite, distanceFromTop);
-            Canvas.SetLeft(vehicle.Sprite, this.road.Width / currentLane.Vehicles.Count * vehicleIndex);
+            Canvas.SetLeft(vehicle.Sprite, this.road.Width / currentLane.Count * vehicleIndex);
 
             return canvas;
         }
