@@ -32,7 +32,7 @@ namespace FroggerStarter.Model
         /// <value>
         ///     The lanes.
         /// </value>
-        public IList<LaneManager> Lanes { get; }
+        public IList<Lane> Lanes { get; }
 
         #endregion
 
@@ -57,12 +57,12 @@ namespace FroggerStarter.Model
                 throw new ArgumentOutOfRangeException(nameof(windowWidth), "windowWidth must be >= 0");
             }
 
-            this.Lanes = new List<LaneManager> {
-                new LaneManager(2, VehicleTypes.Car, 1, VehicleDirections.Left),
-                new LaneManager(3, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
-                new LaneManager(3, VehicleTypes.Car, 1.6, VehicleDirections.Left),
-                new LaneManager(2, VehicleTypes.Semi, 1.8, VehicleDirections.Left),
-                new LaneManager(3, VehicleTypes.Car, 2, VehicleDirections.Right)
+            this.Lanes = new List<Lane> {
+                new Lane(2, VehicleTypes.Car, 1, VehicleDirections.Left),
+                new Lane(3, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
+                new Lane(3, VehicleTypes.Car, 1.6, VehicleDirections.Left),
+                new Lane(2, VehicleTypes.Semi, 1.8, VehicleDirections.Left),
+                new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Right)
             };
 
             this.vehicleRotateTransform = new RotateTransform {
@@ -98,7 +98,7 @@ namespace FroggerStarter.Model
             return this.road;
         }
 
-        private Canvas addLaneToRoad(LaneManager lane, Canvas canvas, int distanceFromTop)
+        private Canvas addLaneToRoad(Lane lane, Canvas canvas, int distanceFromTop)
         {
             for (var i = 0; i < lane.Vehicles.Count; i++)
             {
@@ -108,7 +108,7 @@ namespace FroggerStarter.Model
             return canvas;
         }
 
-        private Canvas addVehicleToLane(LaneManager currentLane, int vehicleIndex, int distanceFromTop, Canvas canvas)
+        private Canvas addVehicleToLane(Lane currentLane, int vehicleIndex, int distanceFromTop, Canvas canvas)
         {
             var vehicle = currentLane.Vehicles[vehicleIndex];
             if (currentLane.Direction == VehicleDirections.Right)
@@ -130,7 +130,7 @@ namespace FroggerStarter.Model
         /// </summary>
         /// <param name="lane">The lane the vehicle is in.</param>
         /// <param name="vehicle">The vehicle to move.</param>
-        public void MoveVehicle(LaneManager lane, Vehicle vehicle)
+        public void MoveVehicle(Lane lane, Vehicle vehicle)
         {
             if (lane.Direction == VehicleDirections.Right)
             {
@@ -142,7 +142,7 @@ namespace FroggerStarter.Model
             }
         }
 
-        private void moveVehicleLeft(LaneManager lane, GameObject vehicle)
+        private void moveVehicleLeft(Lane lane, GameObject vehicle)
         {
             if (vehicleHasCrossedLeftEdge(vehicle))
             {
@@ -165,7 +165,7 @@ namespace FroggerStarter.Model
             Canvas.SetLeft(vehicle.Sprite, this.road.Width);
         }
 
-        private void moveVehicleRight(LaneManager lane, GameObject vehicle)
+        private void moveVehicleRight(Lane lane, GameObject vehicle)
         {
             if (this.vehicleHasCrossedRightEdge(vehicle))
             {

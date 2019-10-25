@@ -108,7 +108,7 @@ namespace FroggerStarter.Controller
             }
         }
 
-        private void moveVehiclesInLane(LaneManager lane)
+        private void moveVehiclesInLane(Lane lane)
         {
             foreach (var vehicle in lane.Vehicles)
             {

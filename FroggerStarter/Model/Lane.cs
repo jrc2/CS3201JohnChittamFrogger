@@ -6,7 +6,7 @@ namespace FroggerStarter.Model
     /// <summary>
     ///     Manages an individual lane
     /// </summary>
-    public class LaneManager
+    public class Lane
     {
         #region Properties
 
@@ -47,7 +47,7 @@ namespace FroggerStarter.Model
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="LaneManager" /> class.
+        ///     Initializes a new instance of the <see cref="Lane" /> class.
         ///     Precondition: numVehicles greater than/= 0; speed greater than/= 0
         ///     Postcondition: LaneManager properties initialized
         /// </summary>
@@ -55,7 +55,7 @@ namespace FroggerStarter.Model
         /// <param name="vehicleType">Type of vehicles.</param>
         /// <param name="speed">The Speed of all vehicles in lane.</param>
         /// <param name="direction">The Direction of all vehicles in lane.</param>
-        public LaneManager(int numVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction)
+        public Lane(int numVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction)
         {
             if (numVehicles < 0)
             {
