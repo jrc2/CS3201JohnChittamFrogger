@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
@@ -7,9 +8,9 @@ using Windows.UI.Xaml.Media;
 namespace FroggerStarter.Model
 {
     /// <summary>
-    ///     Manages all Lanes on the road
+    ///     Manages all lanes on the road
     /// </summary>
-    public class Road
+    public class Road : IEnumerable<Lane>
     {
         #region Data members
 
@@ -22,17 +23,7 @@ namespace FroggerStarter.Model
         private readonly RotateTransform vehicleRotateTransform;
         private Canvas road;
 
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        ///     Gets the Lanes
-        /// </summary>
-        /// <value>
-        ///     The lanes.
-        /// </value>
-        public IList<Lane> Lanes { get; }
+        private readonly IEnumerable<Lane> lanes;
 
         #endregion
 
@@ -57,7 +48,7 @@ namespace FroggerStarter.Model
                 throw new ArgumentOutOfRangeException(nameof(windowWidth), "windowWidth must be >= 0");
             }
 
-            this.Lanes = new List<Lane> {
+            this.lanes = new List<Lane> {
                 new Lane(2, VehicleTypes.Car, 1, VehicleDirections.Left),
                 new Lane(3, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
                 new Lane(3, VehicleTypes.Car, 1.6, VehicleDirections.Left),
@@ -80,6 +71,22 @@ namespace FroggerStarter.Model
         #region Methods
 
         /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<Lane> GetEnumerator()
+        {
+            return this.lanes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        /// <summary>
         ///     Creates the road.
         ///     Postcondition: this.road is completed
         /// </summary>
@@ -88,7 +95,7 @@ namespace FroggerStarter.Model
         {
             var distanceFromTop = LaneOneLocation;
 
-            foreach (var lane in this.Lanes)
+            foreach (var lane in this.lanes)
             {
                 this.road = this.addLaneToRoad(lane, this.road, distanceFromTop);
 
@@ -190,11 +197,11 @@ namespace FroggerStarter.Model
 
         /// <summary>
         ///     Resets the lane speeds.
-        ///     Postcondition: all lane speeds in this.Lanes reset
+        ///     Postcondition: all lane speeds in this.lanes reset
         /// </summary>
         public void ResetLaneSpeeds()
         {
-            foreach (var lane in this.Lanes)
+            foreach (var lane in this.lanes)
             {
                 lane.Speed = lane.OriginalSpeed;
             }

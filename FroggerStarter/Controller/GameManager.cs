@@ -97,7 +97,7 @@ namespace FroggerStarter.Controller
 
         private void timerOnTick(object sender, object e)
         {
-            foreach (var lane in this.roadManager.Lanes)
+            foreach (var lane in this.roadManager)
             {
                 this.moveVehiclesInLane(lane);
             }
