@@ -9,7 +9,7 @@ namespace FroggerStarter.Model
     /// <summary>
     ///     Manages all Lanes on the road
     /// </summary>
-    public class RoadManager
+    public class Lanes
     {
         #region Data members
 
@@ -39,13 +39,13 @@ namespace FroggerStarter.Model
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="RoadManager" /> class.
+        ///     Initializes a new instance of the <see cref="Model.Lanes" /> class.
         ///     Precondition: windowHeight and windowWidth greater than/= 0
         ///     Postcondition: lanes properties and data members initialized
         /// </summary>
         /// <param name="windowHeight">Height of the window.</param>
         /// <param name="windowWidth">Width of the window.</param>
-        public RoadManager(double windowHeight, double windowWidth)
+        public Lanes(double windowHeight, double windowWidth)
         {
             if (windowHeight < 0)
             {
