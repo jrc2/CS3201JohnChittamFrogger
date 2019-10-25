@@ -18,7 +18,7 @@ namespace FroggerStarter.Controller
         private int lives = 3;
         private int score;
         private Canvas gameCanvas;
-        private Lanes roadManager;
+        private Road roadManager;
         private PlayerManager playerManager;
         private DispatcherTimer timer;
 
@@ -89,7 +89,7 @@ namespace FroggerStarter.Controller
         public void InitializeGame(Canvas gamePage)
         {
             this.gameCanvas = gamePage ?? throw new ArgumentNullException(nameof(gamePage));
-            this.roadManager = new Lanes(this.gameCanvas.Height, this.gameCanvas.Width);
+            this.roadManager = new Road(this.gameCanvas.Height, this.gameCanvas.Width);
             this.playerManager = new PlayerManager(this.gameCanvas.Height, this.gameCanvas.Width);
             this.gameCanvas.Children.Add(this.roadManager.CreateRoad());
             this.gameCanvas.Children.Add(this.playerManager.PlayerCanvas);
