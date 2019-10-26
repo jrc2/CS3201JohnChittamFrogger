@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -252,15 +255,18 @@ namespace FroggerStarter.Controller
 
             if ((int) this.playerManager.Player.Y == 55) //TODO magic number, see const in PlayerManager
             {
-                foreach (var homePlayer in this.homePlayerManager.Where(homePlayer =>
-                    homePlayer.Sprite.Visibility == Visibility.Collapsed))
+                foreach (var collapsedHomePlayer in this.getCollapsedHomePlayers())
                 {
-                    var homePlayerRectangle = createRectangleForSprite(homePlayer.Sprite);
+                    var homePlayerRectangle = createRectangleForSprite(collapsedHomePlayer.Sprite);
                     if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
                     {
                         mainPlayerHome = true;
-                        homePlayer.Sprite.Visibility = Visibility.Visible;
+                        collapsedHomePlayer.Sprite.Visibility = Visibility.Visible;
                         this.playerManager.SetPlayerToCenterOfBottomLane();
+                        if (this.getCollapsedHomePlayers().Count == 0)
+                        {
+                            this.onGameOver();
+                        }
                         break;
                     }
                 }
@@ -270,6 +276,19 @@ namespace FroggerStarter.Controller
                     this.MovePlayerDown();
                 }
             }
+        }
+
+        private ICollection<Player> getCollapsedHomePlayers()
+        {
+            var collapsedHomePlayers = new Collection<Player>();
+
+            foreach (var homePlayer in this.homePlayerManager.Where(homePlayer =>
+                homePlayer.Sprite.Visibility == Visibility.Collapsed))
+            {
+                collapsedHomePlayers.Add(homePlayer);
+            }
+
+            return collapsedHomePlayers;
         }
 
         /// <summary>
