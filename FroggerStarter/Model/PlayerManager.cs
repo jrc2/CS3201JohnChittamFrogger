@@ -18,6 +18,7 @@ namespace FroggerStarter.Model
         private const int PlayerMaxX = 600;
         private const int PlayerMinY = 55;
         private const int PlayerMaxY = 355;
+        private const int AnimationDelay = 500;
         private readonly double windowHeight;
         private readonly double windowWidth;
 
@@ -78,13 +79,13 @@ namespace FroggerStarter.Model
         public async void KillPlayer()
         {
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.DeadFrog);
-            await Task.Delay(500); //TODO magic number (also some below)
+            await Task.Delay(AnimationDelay);
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.SquishedFrog);
-            await Task.Delay(500);
+            await Task.Delay(AnimationDelay);
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.BlobFrog);
-            await Task.Delay(500);
+            await Task.Delay(AnimationDelay);
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.DeathX);
-            await Task.Delay(500);
+            await Task.Delay(AnimationDelay);
             this.SetPlayerToCenterOfBottomLane();
             this.Player.Sprite.Content = new PlayerSprite();
         }
