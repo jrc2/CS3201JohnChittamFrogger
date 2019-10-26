@@ -75,11 +75,11 @@ namespace FroggerStarter.Model
         public void ResetLanes()
         {
             this.lanes = new List<Lane> {
-                new Lane(3, VehicleTypes.Car, 1, VehicleDirections.Left),
-                new Lane(2, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
-                new Lane(4, VehicleTypes.Car, 1.6, VehicleDirections.Left),
-                new Lane(3, VehicleTypes.Semi, 1.8, VehicleDirections.Left),
-                new Lane(5, VehicleTypes.Car, 2, VehicleDirections.Right)
+                new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Left),
+                new Lane(2, VehicleTypes.Semi, 2.2, VehicleDirections.Right),
+                new Lane(4, VehicleTypes.Car, 2.6, VehicleDirections.Left),
+                new Lane(3, VehicleTypes.Semi, 2.8, VehicleDirections.Left),
+                new Lane(5, VehicleTypes.Car, 3, VehicleDirections.Right)
             };
 
             var laneIndex = 0;
@@ -137,12 +137,16 @@ namespace FroggerStarter.Model
             }
         }
 
-        private void moveVehicleLeft(Lane lane, GameObject vehicle)
+        private void moveVehicleLeft(Lane lane, Vehicle vehicle)
         {
             if (vehicleHasCrossedLeftEdge(vehicle))
             {
                 this.respawnVehicleOnRight(vehicle);
-                lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
+                if (lane.IndexOf(vehicle) == lane.Count - 1)
+                {
+                    lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
+                    lane.DisplayNextVehicle();
+                }
             }
             else
             {
@@ -160,12 +164,16 @@ namespace FroggerStarter.Model
             vehicle.X = this.windowWidth;
         }
 
-        private void moveVehicleRight(Lane lane, GameObject vehicle)
+        private void moveVehicleRight(Lane lane, Vehicle vehicle)
         {
             if (this.vehicleHasCrossedRightEdge(vehicle))
             {
                 respawnVehicleOnLeft(vehicle);
-                lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
+                if (lane.IndexOf(vehicle) == lane.Count - 1)
+                {
+                    lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
+                    lane.DisplayNextVehicle();
+                }
             }
             else
             {

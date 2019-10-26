@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Windows.UI.Xaml;
 
 namespace FroggerStarter.Model
 {
@@ -87,6 +89,18 @@ namespace FroggerStarter.Model
         #endregion
 
         #region Methods
+
+        public void DisplayNextVehicle()
+        {
+            foreach (var vehicle in this.vehicles)
+            {
+                if (vehicle.Sprite.Visibility == Visibility.Collapsed)
+                {
+                    vehicle.Sprite.Visibility = Visibility.Visible;
+                    return;
+                }
+            }
+        }
 
         /// <summary>
         ///     Adds the specified vehicle.

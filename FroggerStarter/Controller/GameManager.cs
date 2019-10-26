@@ -150,12 +150,13 @@ namespace FroggerStarter.Controller
 
         private async Task processCollision()
         {
-            this.collapseAllVehicles();
+            this.timer.Stop();
             await this.playerManager.KillPlayer();
+            this.collapseAllVehicles();
             this.lives--;
             this.onPlayerLivesUpdated();
+            this.timer.Start();
             this.resetLanes();
-
             this.roadManager.ResetLaneSpeeds();
         }
 
@@ -173,7 +174,7 @@ namespace FroggerStarter.Controller
 
         private void collapseAllVehicles()
         {
-            foreach (var lane in this.roadManager)
+            foreach (var lane in this.roadManager) //TODO move to lane manager
             {
                 foreach (var vehicle in lane)
                 {
