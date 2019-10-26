@@ -15,7 +15,7 @@ namespace FroggerStarter.Controller
         #region Data members
 
         private const int MaxScore = 3;
-        private int lives = 3;
+        private int lives = 4;
         private int score;
         private Canvas gameCanvas;
         private Road roadManager;

@@ -17,7 +17,7 @@
                    Foreground="#FF0FFF00" FontSize="24" />
         <TextBlock Canvas.Left="583" Canvas.Top="17" Text="Score:" TextWrapping="Wrap" Foreground="White" />
         <TextBlock Canvas.Left="10" Canvas.Top="17" Text="Lives:" TextWrapping="Wrap" Foreground="White" />
-        <TextBlock x:Name="livesTextBlock" Canvas.Left="48" Canvas.Top="17" Text="3" TextWrapping="Wrap"
+        <TextBlock x:Name="livesTextBlock" Canvas.Left="48" Canvas.Top="17" Text="4" TextWrapping="Wrap"
                    Foreground="White" />
         <TextBlock x:Name="scoreTextBlock" Canvas.Left="626" Canvas.Top="17" Text="0" TextWrapping="Wrap"
                    Foreground="White" />
