@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.Security.Cryptography.Core;
-using Windows.UI.Xaml.Controls;
 using FroggerStarter.View.Sprites;
 
 namespace FroggerStarter.Model
@@ -18,7 +16,7 @@ namespace FroggerStarter.Model
         private const int PlayerMaxX = 600;
         private const int PlayerMinY = 55;
         private const int PlayerMaxY = 355;
-        private const int AnimationDelay = 500;
+        private const int AnimationDelay = 300;
         private readonly double windowHeight;
         private readonly double windowWidth;
 
@@ -74,10 +72,11 @@ namespace FroggerStarter.Model
         #region Methods
 
         /// <summary>
-        /// Kills the player.
+        ///     Kills the player.
         /// </summary>
-        public async void KillPlayer()
+        public async Task<bool> KillPlayer()
         {
+            this.Player.SetSpeedTo(0);
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.DeadFrog);
             await Task.Delay(AnimationDelay);
             this.Player.Sprite.Content = new PlayerSprite(PlayerStages.SquishedFrog);
@@ -88,10 +87,12 @@ namespace FroggerStarter.Model
             await Task.Delay(AnimationDelay);
             this.SetPlayerToCenterOfBottomLane();
             this.Player.Sprite.Content = new PlayerSprite();
+            this.Player.SetSpeedToDefault();
+            return true;
         }
 
         /// <summary>
-        /// Sets the player to center of bottom lane.
+        ///     Sets the player to center of bottom lane.
         /// </summary>
         public void SetPlayerToCenterOfBottomLane()
         {

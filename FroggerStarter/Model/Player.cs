@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using FroggerStarter.View.Sprites;
 
 namespace FroggerStarter.Model
@@ -26,7 +25,7 @@ namespace FroggerStarter.Model
         public Player()
         {
             Sprite = new PlayerSprite();
-            SetSpeed(SpeedXDirection, SpeedYDirection);
+            this.SetSpeedToDefault();
         }
 
         #endregion
@@ -47,6 +46,14 @@ namespace FroggerStarter.Model
             }
 
             SetSpeed(speed, speed);
+        }
+
+        /// <summary>
+        ///     Sets the Player speed to default.
+        /// </summary>
+        public void SetSpeedToDefault()
+        {
+            SetSpeed(SpeedXDirection, SpeedYDirection);
         }
 
         #endregion

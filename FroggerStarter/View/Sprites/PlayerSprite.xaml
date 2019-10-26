@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="FrogColor" Color="LawnGreen" />
         <SolidColorBrush x:Key="DeadFrogColor" Color="Red" />
-        <SolidColorBrush x:Key="TireTrack" Color="#FF3A3030"></SolidColorBrush>
+        <SolidColorBrush x:Key="TireTrack" Color="#FF3A3030" />
     </UserControl.Resources>
 
     <Canvas Width="50" Height="50" Background="Transparent">
@@ -76,9 +76,10 @@
             <Ellipse Canvas.Top="23" Canvas.Left="33" Fill="Yellow" Width="5" Height="5" />
             <Ellipse Canvas.Top="33" Canvas.Left="19" Fill="YellowGreen" Width="5" Height="5" />
         </Canvas>
-        <Canvas x:Name="squishedFrog" Width="50" Height="50" Background="Transparent" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
+        <Canvas x:Name="squishedFrog" Width="50" Height="50" Background="Transparent" RenderTransformOrigin="0.5,0.5"
+                Visibility="Collapsed">
             <Canvas.RenderTransform>
-                <CompositeTransform Rotation="-120"/>
+                <CompositeTransform Rotation="-120" />
             </Canvas.RenderTransform>
             <Rectangle Canvas.Top="10" Canvas.Left="10" Fill="{StaticResource DeadFrogColor}" Width="30" Height="30" />
             <Rectangle Canvas.Top="5" Canvas.Left="15" Fill="{StaticResource DeadFrogColor}" Width="20" Height="5" />
@@ -108,129 +109,170 @@
             <Ellipse Canvas.Top="12" Canvas.Left="23" Fill="YellowGreen" Width="5" Height="5" />
             <Ellipse Canvas.Top="23" Canvas.Left="33" Fill="Yellow" Width="5" Height="5" />
             <Ellipse Canvas.Top="33" Canvas.Left="19" Fill="YellowGreen" Width="5" Height="5" />
-            <Rectangle Height="5.752" Canvas.Left="37.981" Canvas.Top="6.291" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="37.981" Canvas.Top="6.291" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="-9.025" TranslateX="-19.404"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="-9.025" TranslateX="-19.404" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="42.087" Canvas.Top="14.291" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="42.087" Canvas.Top="14.291" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="-15.997" TranslateX="-14.754"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="-15.997" TranslateX="-14.754" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="38.034" Canvas.Top="23.291" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="38.034" Canvas.Top="23.291" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="-16.645" TranslateX="-5.278"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="-16.645" TranslateX="-5.278" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="42.64" Canvas.Top="30.791" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="42.64" Canvas.Top="30.791" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="-23.811" TranslateX="-1.268"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="-23.811" TranslateX="-1.268" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="27.825" Canvas.Top="7.459" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="27.825" Canvas.Top="7.459" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="-1.092" TranslateX="-13.905"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="-1.092" TranslateX="-13.905" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="31.931" Canvas.Top="15.459" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="31.931" Canvas.Top="15.459" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="-8.064" TranslateX="-9.256"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="-8.064" TranslateX="-9.256" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="27.878" Canvas.Top="24.459" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="27.878" Canvas.Top="24.459" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="-8.713" TranslateX="0.22"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="-8.713" TranslateX="0.22" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="32.484" Canvas.Top="31.959" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="32.484" Canvas.Top="31.959" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="-15.878" TranslateX="4.231"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="-15.878" TranslateX="4.231" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="17.823" Canvas.Top="7.955" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="17.823" Canvas.Top="7.955" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="7.012" TranslateX="-9.034"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="7.012" TranslateX="-9.034" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="21.929" Canvas.Top="15.955" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="21.929" Canvas.Top="15.955" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="0.04" TranslateX="-4.385"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="0.04" TranslateX="-4.385" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="17.876" Canvas.Top="24.955" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="17.876" Canvas.Top="24.955" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="-0.609" TranslateX="5.092"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="-0.609" TranslateX="5.092" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="22.482" Canvas.Top="32.455" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="22.482" Canvas.Top="32.455" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="-7.775" TranslateX="9.101"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="-7.775" TranslateX="9.101" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="7.667" Canvas.Top="9.123" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="7.667" Canvas.Top="9.123" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="14.944" TranslateX="-3.536"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="14.944" TranslateX="-3.536" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="11.773" Canvas.Top="17.123" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="11.773" Canvas.Top="17.123" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="7.972" TranslateX="1.113"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="7.972" TranslateX="1.113" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="7.72" Canvas.Top="26.123" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="7.72" Canvas.Top="26.123" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="7.324" TranslateX="10.59"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="7.324" TranslateX="10.59" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="12.326" Canvas.Top="33.623" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="12.326" Canvas.Top="33.623" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="0.158" TranslateX="14.6"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="0.158" TranslateX="14.6" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="-2.748" Canvas.Top="9.166" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="-2.748" Canvas.Top="9.166" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="23.594" TranslateX="1.141"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="23.594" TranslateX="1.141" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="1.358" Canvas.Top="17.166" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="1.358" Canvas.Top="17.166" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="16.621" TranslateX="5.791"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="16.621" TranslateX="5.791" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="-2.695" Canvas.Top="26.166" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="-2.695" Canvas.Top="26.166" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-99.85" TranslateY="15.973" TranslateX="15.267"/>
+                    <CompositeTransform Rotation="-99.85" TranslateY="15.973" TranslateX="15.267" />
                 </Rectangle.RenderTransform>
             </Rectangle>
-            <Rectangle Height="5.752" Canvas.Left="1.911" Canvas.Top="33.666" Width="10.106" Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Rectangle Height="5.752" Canvas.Left="1.911" Canvas.Top="33.666" Width="10.106"
+                       Fill="{StaticResource TireTrack}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False"
+                       d:LayoutRounding="Auto">
                 <Rectangle.RenderTransform>
-                    <CompositeTransform Rotation="-189.443" TranslateY="8.807" TranslateX="19.277"/>
+                    <CompositeTransform Rotation="-189.443" TranslateY="8.807" TranslateX="19.277" />
                 </Rectangle.RenderTransform>
             </Rectangle>
         </Canvas>
         <Canvas x:Name="blob" Width="50" Height="50" Background="Transparent" Visibility="Collapsed">
-            <Rectangle Height="4" Canvas.Left="5" Canvas.Top="5" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="9" Canvas.Top="7" Width="4" Fill="Gray"/>
-            <Rectangle Height="4" Canvas.Left="13" Canvas.Top="6" Width="4" Fill="Gray"/>
-            <Rectangle Height="22" Canvas.Left="7" Canvas.Top="9" Width="21" Fill="Gray"/>
-            <Rectangle Height="22" Canvas.Left="19" Canvas.Top="14" Width="21" Fill="Gray"/>
-            <Rectangle Height="22" Canvas.Left="10" Canvas.Top="22" Width="21" Fill="Gray"/>
-            <Rectangle Height="22" Canvas.Left="23" Canvas.Top="25" Width="21" Fill="Gray"/>
-            <Rectangle Height="4" Canvas.Left="9" Canvas.Top="40" Width="4" Fill="Gray"/>
-            <Rectangle Height="4" Canvas.Left="13" Canvas.Top="42" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="34" Canvas.Top="7" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="27" Canvas.Top="4" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="43" Canvas.Top="5" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="21" Canvas.Top="29" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="29" Canvas.Top="38" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="12" Canvas.Top="29" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="36" Canvas.Top="31" Width="4" Fill="Red"/>
-            <Rectangle Height="4" Canvas.Left="19" Canvas.Top="16" Width="4" Fill="Red"/>
+            <Rectangle Height="4" Canvas.Left="5" Canvas.Top="5" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="9" Canvas.Top="7" Width="4" Fill="Gray" />
+            <Rectangle Height="4" Canvas.Left="13" Canvas.Top="6" Width="4" Fill="Gray" />
+            <Rectangle Height="22" Canvas.Left="7" Canvas.Top="9" Width="21" Fill="Gray" />
+            <Rectangle Height="22" Canvas.Left="19" Canvas.Top="14" Width="21" Fill="Gray" />
+            <Rectangle Height="22" Canvas.Left="10" Canvas.Top="22" Width="21" Fill="Gray" />
+            <Rectangle Height="22" Canvas.Left="23" Canvas.Top="25" Width="21" Fill="Gray" />
+            <Rectangle Height="4" Canvas.Left="9" Canvas.Top="40" Width="4" Fill="Gray" />
+            <Rectangle Height="4" Canvas.Left="13" Canvas.Top="42" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="34" Canvas.Top="7" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="27" Canvas.Top="4" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="43" Canvas.Top="5" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="21" Canvas.Top="29" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="29" Canvas.Top="38" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="12" Canvas.Top="29" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="36" Canvas.Top="31" Width="4" Fill="Red" />
+            <Rectangle Height="4" Canvas.Left="19" Canvas.Top="16" Width="4" Fill="Red" />
 
         </Canvas>
         <Canvas x:Name="deathX" Width="50" Height="50" Background="Transparent" Visibility="Collapsed">
-            <TextBlock Canvas.Left="9" Canvas.Top="-11" Text="X" TextWrapping="Wrap" FontWeight="Bold" FontSize="50" Foreground="Red"/>
+            <TextBlock Canvas.Left="9" Canvas.Top="-11" Text="X" TextWrapping="Wrap" FontWeight="Bold" FontSize="50"
+                       Foreground="Red" />
 
         </Canvas>
     </Canvas>

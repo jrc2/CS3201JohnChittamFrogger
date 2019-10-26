@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace FroggerStarter.Model
@@ -14,12 +16,10 @@ namespace FroggerStarter.Model
 
         private const int LaneOneLocation = 305;
         private const int LaneWidth = 50;
-        private const double SpeedToAddOnRespawn = 0.2;
+        private const double SpeedToAddOnRespawn = 0;
         private const double TransformOriginX = 0.5;
         private const double TransformOriginY = 0.5;
-        private const int VehicleRotationAngle = 180;
-        private readonly RotateTransform vehicleRotateTransform;
-        private readonly IEnumerable<Lane> lanes;
+        private IEnumerable<Lane> lanes;
         private readonly double windowWidth;
 
         #endregion
@@ -46,31 +46,7 @@ namespace FroggerStarter.Model
             }
 
             this.windowWidth = windowWidth;
-
-            this.lanes = new List<Lane> {
-                new Lane(2, VehicleTypes.Car, 1, VehicleDirections.Left),
-                new Lane(3, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
-                new Lane(3, VehicleTypes.Car, 1.6, VehicleDirections.Left),
-                new Lane(2, VehicleTypes.Semi, 1.8, VehicleDirections.Left),
-                new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Right)
-            };
-
-            var currLane = 0;
-            foreach (var lane in this.lanes) //TODO refactor
-            {
-                for (var currVehicle = 0; currVehicle < lane.Count; currVehicle++)
-                {
-                    var vehicle = lane[currVehicle];
-                    vehicle.Y = LaneOneLocation - LaneWidth * currLane;
-                    vehicle.X = this.windowWidth / lane.Count * currVehicle;
-                }
-
-                currLane++;
-            }
-
-            this.vehicleRotateTransform = new RotateTransform {
-                Angle = VehicleRotationAngle
-            };
+            this.ResetLanes();
         }
 
         #endregion
@@ -91,6 +67,56 @@ namespace FroggerStarter.Model
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Resets the lanes to beginning of game formation.
+        /// </summary>
+        public void ResetLanes()
+        {
+            this.lanes = new List<Lane> {
+                new Lane(3, VehicleTypes.Car, 1, VehicleDirections.Left),
+                new Lane(2, VehicleTypes.Semi, 1.2, VehicleDirections.Right),
+                new Lane(4, VehicleTypes.Car, 1.6, VehicleDirections.Left),
+                new Lane(3, VehicleTypes.Semi, 1.8, VehicleDirections.Left),
+                new Lane(5, VehicleTypes.Car, 2, VehicleDirections.Right)
+            };
+
+            var laneIndex = 0;
+            foreach (var lane in this.lanes)
+            {
+                this.setVehiclesToBeginningOfLane(lane, laneIndex);
+
+                if (lane.Direction == VehicleDirections.Right)
+                {
+                    rotateVehiclesInLane180Degrees(lane);
+                }
+
+                laneIndex++;
+            }
+        }
+
+        private static void rotateVehiclesInLane180Degrees(Lane lane)
+        {
+            foreach (var vehicle in lane)
+            {
+                vehicle.Sprite.RenderTransformOrigin = new Point(TransformOriginX, TransformOriginY);
+                vehicle.Sprite.RenderTransform = new ScaleTransform {ScaleX = -1};
+            }
+        }
+
+        private void setVehiclesToBeginningOfLane(Lane lane, int currLane)
+        {
+            for (var vehicleIndex = 0; vehicleIndex < lane.Count; vehicleIndex++)
+            {
+                var vehicle = lane[vehicleIndex];
+                vehicle.Y = LaneOneLocation - LaneWidth * currLane;
+                vehicle.X = this.windowWidth / lane.Count * vehicleIndex - vehicle.Width;
+                if (vehicleIndex > 0)
+                {
+                    vehicle.Sprite.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         /// <summary>

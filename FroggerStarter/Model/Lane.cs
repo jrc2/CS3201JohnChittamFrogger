@@ -56,18 +56,18 @@ namespace FroggerStarter.Model
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Lane" /> class.
-        ///     Precondition: numVehicles greater than/= 0; speed greater than/= 0
+        ///     Precondition: maxNumVehicles greater than/= 0; speed greater than/= 0
         ///     Postcondition: LaneManager properties initialized
         /// </summary>
-        /// <param name="numVehicles">The number vehicles.</param>
+        /// <param name="maxNumVehicles">The number vehicles.</param>
         /// <param name="vehicleType">Type of vehicles.</param>
         /// <param name="speed">The Speed of all vehicles in lane.</param>
         /// <param name="direction">The Direction of all vehicles in lane.</param>
-        public Lane(int numVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction)
+        public Lane(int maxNumVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction)
         {
-            if (numVehicles < 0)
+            if (maxNumVehicles < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(numVehicles), "numVehicles must be >= 0");
+                throw new ArgumentOutOfRangeException(nameof(maxNumVehicles), "maxNumVehicles must be >= 0");
             }
 
             if (speed < 0)
@@ -78,7 +78,7 @@ namespace FroggerStarter.Model
             this.Direction = direction;
             this.originalSpeed = speed;
 
-            for (var i = 0; i < numVehicles; i++)
+            for (var i = 0; i < maxNumVehicles; i++)
             {
                 this.vehicles.Add(new Vehicle(vehicleType) {SpeedX = speed});
             }

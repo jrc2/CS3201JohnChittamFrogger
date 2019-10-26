@@ -14,6 +14,12 @@ namespace FroggerStarter.View.Sprites
     /// <seealso cref="Windows.UI.Xaml.Markup.IComponentConnector2" />
     public sealed partial class PlayerSprite
     {
+        #region Data members
+
+        private readonly IList<Canvas> allPlayerStages;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -31,14 +37,24 @@ namespace FroggerStarter.View.Sprites
         /// <param name="stage">The stage.</param>
         public PlayerSprite(PlayerStages stage) : this()
         {
-            var allFrogStages = new List<Canvas>
+            this.allPlayerStages = new List<Canvas>
                 {this.mainFrog, this.deadFrog, this.squishedFrog, this.blob, this.deathX};
-            foreach (var state in allFrogStages)
-            {
-                state.Visibility = Visibility.Collapsed;
-            }
 
-            allFrogStages[(int) stage].Visibility = Visibility.Visible;
+            this.collapsePlayer();
+
+            this.allPlayerStages[(int) stage].Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void collapsePlayer()
+        {
+            foreach (var stage in this.allPlayerStages)
+            {
+                stage.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion

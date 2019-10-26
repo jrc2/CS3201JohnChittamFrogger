@@ -99,6 +99,7 @@ namespace FroggerStarter.Controller
                     this.gameCanvas.Children.Add(vehicle.Sprite);
                 }
             }
+
             this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
         }
 
@@ -120,21 +121,56 @@ namespace FroggerStarter.Controller
             foreach (var vehicle in lane)
             {
                 this.roadManager.MoveVehicle(lane, vehicle);
-                this.checkForCollision(vehicle);
+
+                if (vehicle.Sprite.Visibility == Visibility.Visible)
+                {
+                    this.checkForCollision(vehicle);
+                }
             }
         }
 
-        private void checkForCollision(GameObject vehicle)
+        private async void checkForCollision(GameObject vehicle)
         {
             var vehicleRectangle = createRectangleForSprite(vehicle.Sprite);
             var playerRectangle = createRectangleForSprite(this.playerManager.Player.Sprite);
 
             if (vehicleRectangle.IntersectsWith(playerRectangle))
             {
-                this.playerManager.KillPlayer();
-                this.lives--;
-                this.onPlayerLivesUpdated();
-                this.roadManager.ResetLaneSpeeds();
+                await this.processCollision();
+            }
+        }
+
+        private async Task processCollision()
+        {
+            this.collapseAllVehicles();
+            await this.playerManager.KillPlayer();
+            this.lives--;
+            this.onPlayerLivesUpdated();
+            this.resetLanes();
+
+            this.roadManager.ResetLaneSpeeds();
+        }
+
+        private void resetLanes()
+        {
+            this.roadManager.ResetLanes();
+            foreach (var lane in this.roadManager)
+            {
+                foreach (var currVehicle in lane)
+                {
+                    this.gameCanvas.Children.Add(currVehicle.Sprite);
+                }
+            }
+        }
+
+        private void collapseAllVehicles()
+        {
+            foreach (var lane in this.roadManager)
+            {
+                foreach (var vehicle in lane)
+                {
+                    vehicle.Sprite.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
