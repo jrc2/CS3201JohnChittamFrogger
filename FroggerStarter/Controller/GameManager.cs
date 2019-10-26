@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FroggerStarter.Model;
@@ -130,7 +131,7 @@ namespace FroggerStarter.Controller
 
             if (vehicleRectangle.IntersectsWith(playerRectangle))
             {
-                this.playerManager.SetPlayerToCenterOfBottomLane();
+                this.playerManager.KillPlayer();
                 this.lives--;
                 this.onPlayerLivesUpdated();
                 this.roadManager.ResetLaneSpeeds();

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Xaml.Controls;
+using FroggerStarter.View.Sprites;
 
 namespace FroggerStarter.Model
 {
@@ -70,8 +73,24 @@ namespace FroggerStarter.Model
         #region Methods
 
         /// <summary>
-        ///     Sets the player to center of bottom lane.
-        ///     Postcondition: player is centered at bottom of screen
+        /// Kills the player.
+        /// </summary>
+        public async void KillPlayer()
+        {
+            this.Player.Sprite.Content = new PlayerSprite(PlayerStages.DeadFrog);
+            await Task.Delay(500); //TODO magic number (also some below)
+            this.Player.Sprite.Content = new PlayerSprite(PlayerStages.SquishedFrog);
+            await Task.Delay(500);
+            this.Player.Sprite.Content = new PlayerSprite(PlayerStages.BlobFrog);
+            await Task.Delay(500);
+            this.Player.Sprite.Content = new PlayerSprite(PlayerStages.DeathX);
+            await Task.Delay(500);
+            this.SetPlayerToCenterOfBottomLane();
+            this.Player.Sprite.Content = new PlayerSprite();
+        }
+
+        /// <summary>
+        /// Sets the player to center of bottom lane.
         /// </summary>
         public void SetPlayerToCenterOfBottomLane()
         {
