@@ -91,7 +91,6 @@ namespace FroggerStarter.Controller
             this.gameCanvas = gamePage ?? throw new ArgumentNullException(nameof(gamePage));
             this.roadManager = new Road(this.gameCanvas.Height, this.gameCanvas.Width);
             this.playerManager = new PlayerManager(this.gameCanvas.Height, this.gameCanvas.Width);
-//            this.gameCanvas.Children.Add(this.roadManager.CreateRoad());
             foreach (var lane in this.roadManager)
             {
                 foreach (var vehicle in lane)
