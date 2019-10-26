@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Custom="using:FroggerStarter.View.Sprites"
     x:Class="FroggerStarter.View.GamePage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -23,17 +22,17 @@
         <TextBlock x:Name="scoreTextBlock" Canvas.Left="626" Canvas.Top="17" Text="0" TextWrapping="Wrap"
                    Foreground="White" />
 
-        <Rectangle x:Name="home0" Height="50" Canvas.Left="100" Canvas.Top="55" Width="50" Fill="Black"/>
-        <Rectangle x:Name="home1" Height="50" Canvas.Left="200" Canvas.Top="55" Width="50" Fill="Black"/>
-        <Rectangle x:Name="home2" Height="50" Canvas.Left="300" Canvas.Top="55" Width="50" Fill="Black"/>
-        <Rectangle x:Name="home3" Height="50" Canvas.Left="400" Canvas.Top="55" Width="50" Fill="Black"/>
-        <Rectangle x:Name="home4" Height="50" Canvas.Left="500" Canvas.Top="55" Width="50" Fill="Black"/>
+        <Rectangle x:Name="home0" Height="50" Canvas.Left="100" Canvas.Top="55" Width="50" Fill="Black" />
+        <Rectangle x:Name="home1" Height="50" Canvas.Left="200" Canvas.Top="55" Width="50" Fill="Black" />
+        <Rectangle x:Name="home2" Height="50" Canvas.Left="300" Canvas.Top="55" Width="50" Fill="Black" />
+        <Rectangle x:Name="home3" Height="50" Canvas.Left="400" Canvas.Top="55" Width="50" Fill="Black" />
+        <Rectangle x:Name="home4" Height="50" Canvas.Left="500" Canvas.Top="55" Width="50" Fill="Black" />
 
-        <TextBlock Canvas.Left="106" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White"/>
-        <TextBlock Canvas.Left="206" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White"/>
-        <TextBlock Canvas.Left="306" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White"/>
-        <TextBlock Canvas.Left="406" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White"/>
-        <TextBlock Canvas.Left="506" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White"/>
+        <TextBlock Canvas.Left="106" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
+        <TextBlock Canvas.Left="206" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
+        <TextBlock Canvas.Left="306" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
+        <TextBlock Canvas.Left="406" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
+        <TextBlock Canvas.Left="506" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
 
     </Canvas>
 </Page>

@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace FroggerStarter.Model
 {
     /// <summary>
-    /// Manages the players in the home spaces
+    ///     Manages the players in the home spaces
     /// </summary>
     public class HomePlayerManager : IEnumerable<Player>
     {
+        #region Data members
+
         private readonly IList<Player> homePlayers;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="HomePlayerManager"/> class.
+        ///     Initializes a new instance of the <see cref="HomePlayerManager" /> class.
         /// </summary>
         public HomePlayerManager()
         {
@@ -33,11 +35,15 @@ namespace FroggerStarter.Model
             }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Returns an enumerator that iterates through the homePlayers.
+        ///     Returns an enumerator that iterates through the homePlayers.
         /// </summary>
         /// <returns>
-        /// An enumerator that can be used to iterate through the homePlayers.
+        ///     An enumerator that can be used to iterate through the homePlayers.
         /// </returns>
         public IEnumerator<Player> GetEnumerator()
         {
@@ -48,5 +54,7 @@ namespace FroggerStarter.Model
         {
             return this.GetEnumerator();
         }
+
+        #endregion
     }
 }

@@ -182,7 +182,7 @@ namespace FroggerStarter.Controller
             }
         }
 
-        private RectangleF createRectangleForSprite(FrameworkElement sprite)
+        private static RectangleF createRectangleForSprite(FrameworkElement sprite)
         {
             var spriteRectangle = new RectangleF {
                 X = (float) Canvas.GetLeft(sprite),
@@ -244,16 +244,17 @@ namespace FroggerStarter.Controller
             this.checkIfPlayerScored();
         }
 
-        private void checkIfPlayerScored()
+        private void checkIfPlayerScored() //TODO this is messy
         {
             var mainPlayerHome = false;
-            var mainPlayerRectangle = this.createRectangleForSprite(this.playerManager.Player.Sprite);
+            var mainPlayerRectangle = createRectangleForSprite(this.playerManager.Player.Sprite);
 
             if ((int) this.playerManager.Player.Y == 55) //TODO magic number, see const in PlayerManager
             {
-                foreach (var homePlayer in this.homePlayerManager.Where(homePlayer => homePlayer.Sprite.Visibility == Visibility.Collapsed))
+                foreach (var homePlayer in this.homePlayerManager.Where(homePlayer =>
+                    homePlayer.Sprite.Visibility == Visibility.Collapsed))
                 {
-                    var homePlayerRectangle = this.createRectangleForSprite(homePlayer.Sprite);
+                    var homePlayerRectangle = createRectangleForSprite(homePlayer.Sprite);
                     if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
                     {
                         mainPlayerHome = true;
@@ -268,7 +269,6 @@ namespace FroggerStarter.Controller
                     this.MovePlayerDown();
                 }
             }
-            
         }
 
         /// <summary>
