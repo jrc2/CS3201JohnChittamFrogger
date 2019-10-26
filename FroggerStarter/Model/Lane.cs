@@ -12,26 +12,11 @@ namespace FroggerStarter.Model
         #region Data members
 
         private readonly IList<Vehicle> vehicles = new List<Vehicle>();
+        private readonly double originalSpeed;
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        ///     Gets and sets the speed of all vehicles in lane
-        /// </summary>
-        /// <value>
-        ///     The speed of all vehicles in lane.
-        /// </value>
-        public double Speed { get; set; }
-
-        /// <summary>
-        ///     Gets the original speed of all vehicles in lane.
-        /// </summary>
-        /// <value>
-        ///     The original speed of all vehicles in lane.
-        /// </value>
-        public double OriginalSpeed { get; }
 
         /// <summary>
         ///     Gets the direction of all vehicles in the lane
@@ -90,13 +75,12 @@ namespace FroggerStarter.Model
                 throw new ArgumentOutOfRangeException(nameof(speed), "speed must be > 0");
             }
 
-            this.OriginalSpeed = speed;
-            this.Speed = speed;
             this.Direction = direction;
+            this.originalSpeed = speed;
 
             for (var i = 0; i < numVehicles; i++)
             {
-                this.vehicles.Add(new Vehicle(vehicleType));
+                this.vehicles.Add(new Vehicle(vehicleType) {SpeedX = speed});
             }
         }
 
@@ -201,6 +185,29 @@ namespace FroggerStarter.Model
         public void RemoveAt(int index)
         {
             this.vehicles.RemoveAt(index);
+        }
+
+        /// <summary>
+        ///     Increases the speed by the given amount.
+        /// </summary>
+        /// <param name="amount">The amount to increase speed by.</param>
+        public void IncreaseSpeedBy(double amount)
+        {
+            foreach (var vehicle in this.vehicles)
+            {
+                vehicle.SpeedX += amount;
+            }
+        }
+
+        /// <summary>
+        ///     Resets the speed for each vehicle in lane.
+        /// </summary>
+        public void ResetSpeed()
+        {
+            foreach (var vehicle in this.vehicles)
+            {
+                vehicle.SpeedX = this.originalSpeed;
+            }
         }
 
         #endregion

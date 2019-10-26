@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace FroggerStarter.Model
@@ -21,7 +20,7 @@ namespace FroggerStarter.Model
         private const int VehicleRotationAngle = 180;
         private readonly RotateTransform vehicleRotateTransform;
         private readonly IEnumerable<Lane> lanes;
-        private double windowWidth;
+        private readonly double windowWidth;
 
         #endregion
 
@@ -63,7 +62,7 @@ namespace FroggerStarter.Model
                 {
                     var vehicle = lane[currVehicle];
                     vehicle.Y = LaneOneLocation - LaneWidth * currLane;
-                    vehicle.X = 650 / lane.Count * currVehicle;
+                    vehicle.X = this.windowWidth / lane.Count * currVehicle;
                 }
 
                 currLane++;
@@ -117,22 +116,22 @@ namespace FroggerStarter.Model
             if (vehicleHasCrossedLeftEdge(vehicle))
             {
                 this.respawnVehicleOnRight(vehicle);
-                lane.Speed += SpeedToAddOnRespawn;
+                lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
             }
             else
             {
-                Canvas.SetLeft(vehicle.Sprite, Canvas.GetLeft(vehicle.Sprite) - lane.Speed);
+                vehicle.MoveLeft();
             }
         }
 
         private static bool vehicleHasCrossedLeftEdge(GameObject vehicle)
         {
-            return !(Canvas.GetLeft(vehicle.Sprite) > 0 - vehicle.Sprite.Width);
+            return !(vehicle.X > 0 - vehicle.Sprite.Width);
         }
 
         private void respawnVehicleOnRight(GameObject vehicle)
         {
-            Canvas.SetLeft(vehicle.Sprite, this.windowWidth); 
+            vehicle.X = this.windowWidth;
         }
 
         private void moveVehicleRight(Lane lane, GameObject vehicle)
@@ -140,22 +139,22 @@ namespace FroggerStarter.Model
             if (this.vehicleHasCrossedRightEdge(vehicle))
             {
                 respawnVehicleOnLeft(vehicle);
-                lane.Speed += SpeedToAddOnRespawn;
+                lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
             }
             else
             {
-                Canvas.SetLeft(vehicle.Sprite, Canvas.GetLeft(vehicle.Sprite) + lane.Speed);
+                vehicle.MoveRight();
             }
         }
 
         private bool vehicleHasCrossedRightEdge(GameObject vehicle)
         {
-            return !(Canvas.GetLeft(vehicle.Sprite) < this.windowWidth + vehicle.Sprite.Width);
+            return !(vehicle.X < this.windowWidth + vehicle.Sprite.Width);
         }
 
         private static void respawnVehicleOnLeft(GameObject vehicle)
         {
-            Canvas.SetLeft(vehicle.Sprite, 0 - vehicle.Sprite.Width);
+            vehicle.X = 0 - vehicle.Sprite.Width;
         }
 
         /// <summary>
@@ -166,7 +165,7 @@ namespace FroggerStarter.Model
         {
             foreach (var lane in this.lanes)
             {
-                lane.Speed = lane.OriginalSpeed;
+                lane.ResetSpeed();
             }
         }
 
