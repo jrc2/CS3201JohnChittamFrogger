@@ -33,6 +33,8 @@
         <TextBlock Canvas.Left="306" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
         <TextBlock Canvas.Left="406" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
         <TextBlock Canvas.Left="506" Canvas.Top="71" Text="Home" TextWrapping="Wrap" Foreground="White" />
+        <TextBlock Canvas.Left="271" Canvas.Top="422" Text="Time Remaining:" TextWrapping="Wrap" Foreground="White"/>
+        <TextBlock x:Name="timeRemainingTextBlock" Canvas.Left="376" Canvas.Top="422" Text="20" TextWrapping="Wrap" Foreground="White"/>
 
     </Canvas>
 </Page>

@@ -22,11 +22,13 @@ namespace FroggerStarter.Controller
         private const int MaxScore = 3;
         private int lives = 4;
         private int score;
+        private int timeRemaining = 20;
         private Canvas gameCanvas;
         private Road roadManager;
         private PlayerManager playerManager;
         private HomePlayerManager homePlayerManager;
-        private DispatcherTimer timer;
+        private DispatcherTimer mainGameTimer;
+        private DispatcherTimer lifeTimer;
 
         #endregion
 
@@ -55,6 +57,7 @@ namespace FroggerStarter.Controller
             }
 
             this.setupGameTimer();
+            this.setupLifeTimer();
         }
 
         #endregion
@@ -76,12 +79,31 @@ namespace FroggerStarter.Controller
         /// </summary>
         public event EventHandler<EventArgs> GameOverUpdated;
 
+        /// <summary>
+        ///     Occurs when [time remaining updated].
+        /// </summary>
+        public event EventHandler<TimeRemainingEventArgs> TimeRemainingUpdated; 
+
         private void setupGameTimer()
         {
-            this.timer = new DispatcherTimer();
-            this.timer.Tick += this.timerOnTick;
-            this.timer.Interval = new TimeSpan(0, 0, 0, 0, 15);
-            this.timer.Start();
+            this.mainGameTimer = new DispatcherTimer();
+            this.mainGameTimer.Tick += this.mainGameTimerOnTick;
+            this.mainGameTimer.Interval = new TimeSpan(0, 0, 0, 0, 15);
+            this.mainGameTimer.Start();
+        }
+
+        private void setupLifeTimer()
+        {
+            this.lifeTimer = new DispatcherTimer();
+            this.lifeTimer.Tick += this.lifeTimerOnTick;
+            this.lifeTimer.Interval = new TimeSpan(0, 0, 1);
+            this.lifeTimer.Start();
+        }
+
+        private void lifeTimerOnTick(object sender, object e)
+        {
+            this.timeRemaining--; //TODO add check for timer at 0
+            this.onTimeRemainingUpdated();
         }
 
         /// <summary>
@@ -114,7 +136,7 @@ namespace FroggerStarter.Controller
             this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
         }
 
-        private void timerOnTick(object sender, object e)
+        private void mainGameTimerOnTick(object sender, object e)
         {
             foreach (var lane in this.roadManager)
             {
@@ -153,12 +175,12 @@ namespace FroggerStarter.Controller
 
         private async Task processCollision()
         {
-            this.timer.Stop();
+            this.mainGameTimer.Stop();
             await this.playerManager.KillPlayer();
             this.collapseAllVehicles();
             this.lives--;
             this.onPlayerLivesUpdated();
-            this.timer.Start();
+            this.mainGameTimer.Start();
             this.resetLanes();
             this.roadManager.ResetLaneSpeeds();
         }
@@ -212,9 +234,15 @@ namespace FroggerStarter.Controller
 
         private void onGameOver()
         {
-            this.timer.Stop();
+            this.mainGameTimer.Stop();
             this.playerManager.SetPlayerSpeedTo(0);
             this.GameOverUpdated?.Invoke(this, null);
+        }
+
+        private void onTimeRemainingUpdated()
+        {
+            var data = new TimeRemainingEventArgs {TimeRemaining = this.timeRemaining};
+            this.TimeRemainingUpdated?.Invoke(this, data);
         }
 
         /// <summary>
@@ -340,5 +368,20 @@ namespace FroggerStarter.Controller
         public int Lives { get; set; }
 
         #endregion
+    }
+
+    /// <summary>
+    ///     Event args for when timer updated
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
+    public class TimeRemainingEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Gets or sets the time remaining.
+        /// </summary>
+        /// <value>
+        /// The time remaining.
+        /// </value>
+        public int TimeRemaining { get; set; }
     }
 }

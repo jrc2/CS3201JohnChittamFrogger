@@ -11,10 +11,10 @@ namespace FroggerStarter.Model
     {
         #region Data members
 
-        private const int BottomLaneOffset = 5;
+        private const int BottomLaneOffset = 45;
         private const int PlayerMinX = 0;
         private const int PlayerMaxX = 600;
-        private const int PlayerMinY = 55;
+        private const int PlayerMinY = 95;
         private const int PlayerMaxY = 355;
         private const int AnimationDelay = 300;
         private readonly double windowHeight;

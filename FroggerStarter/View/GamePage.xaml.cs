@@ -44,11 +44,17 @@ namespace FroggerStarter.View
             this.gameManager.PlayerLivesUpdated += this.livesOnPlayerLivesUpdated;
             this.gameManager.PlayerScoreUpdated += this.scoreOnPlayerScoreUpdated;
             this.gameManager.GameOverUpdated += this.gameOverTestOnGameOverUpdated;
+            this.gameManager.TimeRemainingUpdated += this.timeRemainingOnTimeRemainingUpdated;
         }
 
         #endregion
 
         #region Methods
+
+        private void timeRemainingOnTimeRemainingUpdated(object sender, TimeRemainingEventArgs e)
+        {
+            this.timeRemainingTextBlock.Text = e.TimeRemaining.ToString();
+        }
 
         private void livesOnPlayerLivesUpdated(object sender, PlayerLifeEventArgs e)
         {

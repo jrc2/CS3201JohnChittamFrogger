@@ -90,6 +90,9 @@ namespace FroggerStarter.Model
 
         #region Methods
 
+        /// <summary>
+        /// Makes the next vehicle visible
+        /// </summary>
         public void DisplayNextVehicle()
         {
             foreach (var vehicle in this.vehicles)
