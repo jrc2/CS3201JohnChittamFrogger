@@ -19,10 +19,10 @@ namespace FroggerStarter.Controller
     {
         #region Data members
 
-        private const int MaxScore = 3;
+        private const int OriginalTimeRemaining = 20;
         private int lives = 4;
         private int score;
-        private int timeRemaining = 20;
+        private int timeRemaining = OriginalTimeRemaining;
         private Canvas gameCanvas;
         private Road roadManager;
         private PlayerManager playerManager;
@@ -143,7 +143,7 @@ namespace FroggerStarter.Controller
                 this.moveVehiclesInLane(lane);
             }
 
-            if (this.score == MaxScore || this.lives == 0)
+            if (this.lives == 0)
             {
                 this.onGameOver();
             }
@@ -222,6 +222,7 @@ namespace FroggerStarter.Controller
 
         private void onPlayerLivesUpdated()
         {
+            this.resetTimer();
             var data = new PlayerLifeEventArgs {Lives = this.lives};
             this.PlayerLivesUpdated?.Invoke(this, data);
         }
@@ -235,6 +236,7 @@ namespace FroggerStarter.Controller
         private void onGameOver()
         {
             this.mainGameTimer.Stop();
+            this.lifeTimer.Stop();
             this.playerManager.SetPlayerSpeedTo(0);
             this.GameOverUpdated?.Invoke(this, null);
         }
@@ -288,13 +290,19 @@ namespace FroggerStarter.Controller
                     var homePlayerRectangle = createRectangleForSprite(collapsedHomePlayer.Sprite);
                     if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
                     {
+                        this.score += this.timeRemaining;
+                        this.onPlayerScoreUpdated();
                         mainPlayerHome = true;
                         collapsedHomePlayer.Sprite.Visibility = Visibility.Visible;
-                        this.playerManager.SetPlayerToCenterOfBottomLane();
                         if (this.getCollapsedHomePlayers().Count == 0)
                         {
                             this.onGameOver();
                         }
+                        else
+                        {
+                            this.playerManager.SetPlayerToCenterOfBottomLane();
+                        }
+                        this.resetTimer();
                         break;
                     }
                 }
@@ -304,6 +312,12 @@ namespace FroggerStarter.Controller
                     this.MovePlayerDown();
                 }
             }
+        }
+
+        private void resetTimer()
+        {
+            this.timeRemaining = 20;
+            this.onTimeRemainingUpdated();
         }
 
         private ICollection<Player> getCollapsedHomePlayers()
