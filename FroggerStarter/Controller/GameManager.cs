@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,6 +22,7 @@ namespace FroggerStarter.Controller
         private Canvas gameCanvas;
         private Road roadManager;
         private PlayerManager playerManager;
+        private HomePlayerManager homePlayerManager;
         private DispatcherTimer timer;
 
         #endregion
@@ -92,12 +94,18 @@ namespace FroggerStarter.Controller
             this.gameCanvas = gamePage ?? throw new ArgumentNullException(nameof(gamePage));
             this.roadManager = new Road(this.gameCanvas.Height, this.gameCanvas.Width);
             this.playerManager = new PlayerManager(this.gameCanvas.Height, this.gameCanvas.Width);
-            foreach (var lane in this.roadManager)
+            this.homePlayerManager = new HomePlayerManager();
+            foreach (var lane in this.roadManager) //TODO refactor these
             {
                 foreach (var vehicle in lane)
                 {
                     this.gameCanvas.Children.Add(vehicle.Sprite);
                 }
+            }
+
+            foreach (var player in this.homePlayerManager)
+            {
+                this.gameCanvas.Children.Add(player.Sprite);
             }
 
             this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
@@ -174,7 +182,7 @@ namespace FroggerStarter.Controller
             }
         }
 
-        private static RectangleF createRectangleForSprite(FrameworkElement sprite)
+        private RectangleF createRectangleForSprite(FrameworkElement sprite)
         {
             var spriteRectangle = new RectangleF {
                 X = (float) Canvas.GetLeft(sprite),
@@ -238,14 +246,29 @@ namespace FroggerStarter.Controller
 
         private void checkIfPlayerScored()
         {
-            if (!this.playerManager.HasPlayerScored())
-            {
-                return;
-            }
+            var mainPlayerHome = false;
+            var mainPlayerRectangle = this.createRectangleForSprite(this.playerManager.Player.Sprite);
 
-            this.score++;
-            this.onPlayerScoreUpdated();
-            this.playerManager.SetPlayerToCenterOfBottomLane();
+            if ((int) this.playerManager.Player.Y == 55) //TODO magic number, see const in PlayerManager
+            {
+                foreach (var homePlayer in this.homePlayerManager.Where(homePlayer => homePlayer.Sprite.Visibility == Visibility.Collapsed))
+                {
+                    var homePlayerRectangle = this.createRectangleForSprite(homePlayer.Sprite);
+                    if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
+                    {
+                        mainPlayerHome = true;
+                        homePlayer.Sprite.Visibility = Visibility.Visible;
+                        this.playerManager.SetPlayerToCenterOfBottomLane();
+                        break;
+                    }
+                }
+
+                if (!mainPlayerHome)
+                {
+                    this.MovePlayerDown();
+                }
+            }
+            
         }
 
         /// <summary>
