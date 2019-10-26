@@ -143,10 +143,7 @@ namespace FroggerStarter.Model
         /// </summary>
         public void MovePlayerUp()
         {
-            if (this.Player.Y > PlayerMinY)
-            {
-                this.Player.MoveUp();
-            }
+            this.Player.MoveUp();
         }
 
         /// <summary>
