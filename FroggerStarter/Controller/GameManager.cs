@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -82,7 +81,7 @@ namespace FroggerStarter.Controller
         /// <summary>
         ///     Occurs when [time remaining updated].
         /// </summary>
-        public event EventHandler<TimeRemainingEventArgs> TimeRemainingUpdated; 
+        public event EventHandler<TimeRemainingEventArgs> TimeRemainingUpdated;
 
         private void setupGameTimer()
         {
@@ -309,6 +308,7 @@ namespace FroggerStarter.Controller
                         {
                             this.playerManager.SetPlayerToCenterOfBottomLane();
                         }
+
                         this.resetTimer();
                         break;
                     }
@@ -397,12 +397,16 @@ namespace FroggerStarter.Controller
     /// <seealso cref="System.EventArgs" />
     public class TimeRemainingEventArgs : EventArgs
     {
+        #region Properties
+
         /// <summary>
-        /// Gets or sets the time remaining.
+        ///     Gets or sets the time remaining.
         /// </summary>
         /// <value>
-        /// The time remaining.
+        ///     The time remaining.
         /// </value>
         public int TimeRemaining { get; set; }
+
+        #endregion
     }
 }

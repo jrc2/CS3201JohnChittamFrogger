@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.UI.Xaml;
 
 namespace FroggerStarter.Model
@@ -89,21 +88,6 @@ namespace FroggerStarter.Model
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Makes the next vehicle visible
-        /// </summary>
-        public void DisplayNextVehicle()
-        {
-            foreach (var vehicle in this.vehicles)
-            {
-                if (vehicle.Sprite.Visibility == Visibility.Collapsed)
-                {
-                    vehicle.Sprite.Visibility = Visibility.Visible;
-                    return;
-                }
-            }
-        }
 
         /// <summary>
         ///     Adds the specified vehicle.
@@ -202,6 +186,21 @@ namespace FroggerStarter.Model
         public void RemoveAt(int index)
         {
             this.vehicles.RemoveAt(index);
+        }
+
+        /// <summary>
+        ///     Makes the next vehicle visible
+        /// </summary>
+        public void DisplayNextVehicle()
+        {
+            foreach (var vehicle in this.vehicles)
+            {
+                if (vehicle.Sprite.Visibility == Visibility.Collapsed)
+                {
+                    vehicle.Sprite.Visibility = Visibility.Visible;
+                    return;
+                }
+            }
         }
 
         /// <summary>

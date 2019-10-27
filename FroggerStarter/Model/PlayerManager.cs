@@ -147,17 +147,6 @@ namespace FroggerStarter.Model
         }
 
         /// <summary>
-        ///     Determines whether player has scored.
-        /// </summary>
-        /// <returns>
-        ///     <c>true</c> if player has scored; otherwise, <c>false</c>.
-        /// </returns>
-        public bool HasPlayerScored()
-        {
-            return (int) this.Player.Y == PlayerMinY;
-        }
-
-        /// <summary>
         ///     Moves the Player down.
         ///     Precondition: none
         ///     Postcondition: Player.Y = Player.Y@prev + Player.Height
