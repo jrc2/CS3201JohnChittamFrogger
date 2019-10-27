@@ -39,17 +39,22 @@ namespace FroggerStarter.View
                            .SetPreferredMinSize(new Size(this.applicationWidth, this.applicationHeight));
 
             Window.Current.CoreWindow.KeyDown += this.coreWindowOnKeyDown;
-            this.gameManager = new GameManager(this.applicationHeight, this.applicationWidth);
+            this.gameManager = new GameManager();
             this.gameManager.InitializeGame(this.canvas);
-            this.gameManager.PlayerLivesUpdated += this.livesOnPlayerLivesUpdated;
-            this.gameManager.PlayerScoreUpdated += this.scoreOnPlayerScoreUpdated;
-            this.gameManager.GameOverUpdated += this.gameOverTestOnGameOverUpdated;
-            this.gameManager.TimeRemainingUpdated += this.timeRemainingOnTimeRemainingUpdated;
+            this.setupEventListeners();
         }
 
         #endregion
 
         #region Methods
+
+        private void setupEventListeners()
+        {
+            this.gameManager.PlayerLivesUpdated += this.livesOnPlayerLivesUpdated;
+            this.gameManager.PlayerScoreUpdated += this.scoreOnPlayerScoreUpdated;
+            this.gameManager.GameOverUpdated += this.gameOverTestOnGameOverUpdated;
+            this.gameManager.TimeRemainingUpdated += this.timeRemainingOnTimeRemainingUpdated;
+        }
 
         private void timeRemainingOnTimeRemainingUpdated(object sender, TimeRemainingEventArgs e)
         {

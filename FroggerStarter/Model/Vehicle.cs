@@ -1,4 +1,5 @@
-﻿using FroggerStarter.View.Sprites;
+﻿using System;
+using FroggerStarter.View.Sprites;
 
 namespace FroggerStarter.Model
 {
@@ -8,35 +9,53 @@ namespace FroggerStarter.Model
     /// <seealso cref="FroggerStarter.Model.GameObject" />
     public class Vehicle : GameObject
     {
+        #region Data members
 
         private readonly double originalSpeed;
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
-        /// Gets the direction.
+        ///     Gets the direction.
         /// </summary>
         /// <value>
-        /// The direction.
+        ///     The direction.
         /// </value>
         public VehicleDirections Direction { get; }
 
         /// <summary>
-        /// Gets or sets the speed.
+        ///     Gets or sets the speed.
         /// </summary>
         /// <value>
-        /// The speed.
+        ///     The speed.
         /// </value>
-        public double Speed { get => this.SpeedX; set => this.SpeedX = value; }
+        public double Speed
+        {
+            get => SpeedX;
+            set => SpeedX = value;
+        }
+
+        #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vehicle" /> class.
+        ///     Initializes a new instance of the <see cref="Vehicle" /> class.
+        ///     Precondition: Speed greater than/= 0
         /// </summary>
         /// <param name="vehicleType">Type of the vehicle.</param>
         /// <param name="direction">The direction.</param>
         /// <param name="speed">The speed.</param>
+        /// <exception cref="ArgumentOutOfRangeException">speed - speed must be at least 0</exception>
         public Vehicle(VehicleTypes vehicleType, VehicleDirections direction, double speed)
         {
+            if (speed < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(speed), "speed must be at least 0");
+            }
+
             if (vehicleType == VehicleTypes.Car)
             {
                 Sprite = new CarSprite();
@@ -51,8 +70,12 @@ namespace FroggerStarter.Model
             this.Speed = speed;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
-        /// Resets the speed.
+        ///     Resets the speed.
         /// </summary>
         public void ResetSpeed()
         {
