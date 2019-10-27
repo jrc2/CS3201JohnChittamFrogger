@@ -70,6 +70,20 @@ namespace FroggerStarter.Model
         }
 
         /// <summary>
+        ///     Collapses all vehicles in every lane.
+        /// </summary>
+        public void CollapseAllVehicles()
+        {
+            foreach (var lane in this.lanes)
+            {
+                foreach (var vehicle in lane)
+                {
+                    vehicle.Sprite.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        /// <summary>
         ///     Resets the lanes to beginning of game formation.
         /// </summary>
         public void ResetLanes()

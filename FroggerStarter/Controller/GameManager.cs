@@ -124,20 +124,28 @@ namespace FroggerStarter.Controller
             this.roadManager = new Road(this.gameCanvas.Height, this.gameCanvas.Width);
             this.playerManager = new PlayerManager(this.gameCanvas.Height, this.gameCanvas.Width);
             this.homePlayerManager = new HomePlayerManager();
-            foreach (var lane in this.roadManager) //TODO refactor these
+            this.addVehiclesToCanvas();
+            this.addHomeFrogsToCanvas();
+            this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
+        }
+
+        private void addHomeFrogsToCanvas()
+        {
+            foreach (var player in this.homePlayerManager)
+            {
+                this.gameCanvas.Children.Add(player.Sprite);
+            }
+        }
+
+        private void addVehiclesToCanvas()
+        {
+            foreach (var lane in this.roadManager)
             {
                 foreach (var vehicle in lane)
                 {
                     this.gameCanvas.Children.Add(vehicle.Sprite);
                 }
             }
-
-            foreach (var player in this.homePlayerManager)
-            {
-                this.gameCanvas.Children.Add(player.Sprite);
-            }
-
-            this.gameCanvas.Children.Add(this.playerManager.Player.Sprite);
         }
 
         private void mainGameTimerOnTick(object sender, object e)
@@ -182,7 +190,7 @@ namespace FroggerStarter.Controller
             this.mainGameTimer.Stop();
             this.lifeTimer.Stop();
             await this.playerManager.KillPlayer();
-            this.collapseAllVehicles();
+            this.roadManager.CollapseAllVehicles();
             this.lives--;
             this.onPlayerLivesUpdated();
             this.mainGameTimer.Start();
@@ -196,20 +204,9 @@ namespace FroggerStarter.Controller
             this.roadManager.ResetLanes();
             foreach (var lane in this.roadManager)
             {
-                foreach (var currVehicle in lane)
-                {
-                    this.gameCanvas.Children.Add(currVehicle.Sprite);
-                }
-            }
-        }
-
-        private void collapseAllVehicles()
-        {
-            foreach (var lane in this.roadManager) //TODO move to lane manager
-            {
                 foreach (var vehicle in lane)
                 {
-                    vehicle.Sprite.Visibility = Visibility.Collapsed;
+                    this.gameCanvas.Children.Add(vehicle.Sprite);
                 }
             }
         }
@@ -286,7 +283,7 @@ namespace FroggerStarter.Controller
 
         private void checkIfPlayerScored() //TODO this is messy
         {
-            var mainPlayerHome = false;
+            var mainPlayerIsHome = false;
             var mainPlayerRectangle = createRectangleForSprite(this.playerManager.Player.Sprite);
 
             if ((int) this.playerManager.Player.Y == 55) //TODO magic number, see const in PlayerManager
@@ -298,7 +295,7 @@ namespace FroggerStarter.Controller
                     {
                         this.score += this.timeRemaining;
                         this.onPlayerScoreUpdated();
-                        mainPlayerHome = true;
+                        mainPlayerIsHome = true;
                         collapsedHomePlayer.Sprite.Visibility = Visibility.Visible;
                         if (this.getCollapsedHomePlayers().Count == 0)
                         {
@@ -314,7 +311,7 @@ namespace FroggerStarter.Controller
                     }
                 }
 
-                if (!mainPlayerHome)
+                if (!mainPlayerIsHome)
                 {
                     this.MovePlayerDown();
                 }
@@ -323,7 +320,7 @@ namespace FroggerStarter.Controller
 
         private void resetTimer()
         {
-            this.timeRemaining = 20;
+            this.timeRemaining = OriginalTimeRemaining;
             this.onTimeRemainingUpdated();
         }
 
