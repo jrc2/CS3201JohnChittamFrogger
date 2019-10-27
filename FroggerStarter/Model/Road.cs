@@ -234,6 +234,7 @@ namespace FroggerStarter.Model
         /// </summary>
         public void ResetLanes()
         {
+            this.vehicles.Clear();
             var lanes = new List<Lane> {
                 new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Left, this.windowWidth),
                 new Lane(2, VehicleTypes.Semi, 2.2, VehicleDirections.Right, this.windowWidth),
@@ -360,6 +361,22 @@ namespace FroggerStarter.Model
             {
                 vehicle.ResetSpeed();
             }
+        }
+
+        /// <summary>
+        ///     Starts the vehicle action timer.
+        /// </summary>
+        public void StartVehicleActionTimer()
+        {
+            this.vehicleActionTimer.Start();
+        }
+
+        /// <summary>
+        ///     Stops the vehicle action timer.
+        /// </summary>
+        public void StopVehicleActionTimer()
+        {
+            this.vehicleActionTimer.Stop();
         }
 
         #endregion
