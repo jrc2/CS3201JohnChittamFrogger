@@ -11,6 +11,8 @@ namespace FroggerStarter.Model
     {
         #region Data members
 
+        private const int HomePlayerOffsetX = 100;
+
         private readonly IList<Player> homePlayers;
 
         #endregion
@@ -24,14 +26,14 @@ namespace FroggerStarter.Model
         {
             this.homePlayers = new List<Player> {new Player(), new Player(), new Player(), new Player(), new Player()};
 
-            var currX = 100; //TODO magic numbers
+            var currX = HomePlayerOffsetX;
             foreach (var player in this.homePlayers)
             {
                 player.SetSpeedTo(0);
                 player.Sprite.Visibility = Visibility.Collapsed;
                 player.Y = 55;
                 player.X = currX;
-                currX += 100;
+                currX += HomePlayerOffsetX;
             }
         }
 
