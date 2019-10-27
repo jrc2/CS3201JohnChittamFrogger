@@ -194,22 +194,6 @@ namespace FroggerStarter.Model
             return this.GetEnumerator();
         }
 
-        /// <summary>
-        ///     Starts the vehicle action timer.
-        /// </summary>
-        public void StartVehicleActionTimer()
-        {
-            this.vehicleActionTimer.Start();
-        }
-
-        /// <summary>
-        ///     Stops the vehicle action timer.
-        /// </summary>
-        public void StopVehicleActionTimer()
-        {
-            this.vehicleActionTimer.Stop();
-        }
-
         private void setupVehicleActionTimer()
         {
             this.vehicleActionTimer = new DispatcherTimer();

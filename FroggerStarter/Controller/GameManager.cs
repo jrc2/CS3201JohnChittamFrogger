@@ -159,28 +159,16 @@ namespace FroggerStarter.Controller
 
         private async Task killPlayer()
         {
-            this.stopTimers();
+            this.mainGameTimer.Stop();
+            this.lifeTimer.Stop();
             await this.playerManager.KillPlayer();
             this.roadManager.CollapseAllVehicles();
             this.lives--;
             this.onPlayerLivesUpdated();
-            this.startTimers();
-            this.resetLanes();
-            this.roadManager.ResetVehicleSpeeds();
-        }
-
-        private void startTimers()
-        {
             this.mainGameTimer.Start();
             this.lifeTimer.Start();
-            this.roadManager.StartVehicleActionTimer();
-        }
-
-        private void stopTimers()
-        {
-            this.mainGameTimer.Stop();
-            this.lifeTimer.Stop();
-            this.roadManager.StopVehicleActionTimer();
+            this.resetLanes();
+            this.roadManager.ResetVehicleSpeeds();
         }
 
         private void resetLanes()
@@ -220,7 +208,8 @@ namespace FroggerStarter.Controller
 
         private void onGameOver()
         {
-            this.stopTimers();
+            this.mainGameTimer.Stop();
+            this.lifeTimer.Stop();
             this.playerManager.SetPlayerSpeedTo(0);
             this.GameOverUpdated?.Invoke(this, null);
         }
