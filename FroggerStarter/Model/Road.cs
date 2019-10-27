@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -15,18 +16,34 @@ namespace FroggerStarter.Model
     {
         #region Data members
 
+        private DispatcherTimer vehicleActionTimer;
+        private readonly Random random;
         private const int LaneOneLocation = 305;
         private const int LaneWidth = 50;
-        private const double SpeedToAddOnRespawn = 0;
+        private const double SpeedToAddOnTick = 0;
         private const double TransformOriginX = 0.5;
         private const double TransformOriginY = 0.5;
-        private IList<Vehicle> vehicles = new List<Vehicle>();
+        private readonly IList<Vehicle> vehicles = new List<Vehicle>();
         private readonly double windowWidth;
 
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// </summary>
         public int Count => this.vehicles.Count;
 
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
+        /// </summary>
         public bool IsReadOnly => this.vehicles.IsReadOnly;
 
+        /// <summary>
+        /// Gets or sets the <see cref="Vehicle"/> at the specified index.
+        /// </summary>
+        /// <value>
+        /// The <see cref="Vehicle"/>.
+        /// </value>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
         public Vehicle this[int index]
         {
             get => this.vehicles[index];
@@ -58,26 +75,35 @@ namespace FroggerStarter.Model
 
             this.windowWidth = windowWidth;
             this.ResetLanes();
+            this.random = new Random();
+            this.setupVehicleActionTimer();
+        }
+
+        private void setupVehicleActionTimer()
+        {
+            this.vehicleActionTimer = new DispatcherTimer();
+            this.vehicleActionTimer.Tick += this.vehicleActionTimerOnTick;
+            this.vehicleActionTimer.Interval = new TimeSpan(0, 0, 2);
+            this.vehicleActionTimer.Start();
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        ///     Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        ///     An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<Vehicle> GetEnumerator()
+        private void vehicleActionTimerOnTick(object sender, object e)
         {
-            return this.vehicles.GetEnumerator();
-        }
+            var collapsedVehicles = this.vehicles.Where(vehicle => vehicle.Sprite.Visibility == Visibility.Collapsed).ToList();
+            if (collapsedVehicles.Count > 0)
+            {
+                var randomVehicleIndex = this.random.Next(0, collapsedVehicles.Count());
+                collapsedVehicles.ElementAt(randomVehicleIndex).Sprite.Visibility = Visibility.Visible;
+            }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
+            foreach (var vehicle in this.vehicles)
+            {
+                vehicle.Speed += SpeedToAddOnTick;
+            }
         }
 
         /// <summary>
@@ -94,20 +120,23 @@ namespace FroggerStarter.Model
         /// <summary>
         ///     Resets the lanes to beginning of game formation.
         /// </summary>
-        public void ResetLanes() //TODO refactor
+        public void ResetLanes()
         {
             var lanes = new List<Lane> {
-                new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Left),
-                new Lane(2, VehicleTypes.Semi, 2.2, VehicleDirections.Right),
-                new Lane(4, VehicleTypes.Car, 2.6, VehicleDirections.Left),
-                new Lane(3, VehicleTypes.Semi, 2.8, VehicleDirections.Left),
-                new Lane(5, VehicleTypes.Car, 3, VehicleDirections.Right)
+                new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Left, this.windowWidth),
+                new Lane(2, VehicleTypes.Semi, 2.2, VehicleDirections.Right, this.windowWidth),
+                new Lane(4, VehicleTypes.Car, 2.5, VehicleDirections.Left, this.windowWidth),
+                new Lane(3, VehicleTypes.Semi, 2.8, VehicleDirections.Left, this.windowWidth),
+                new Lane(5, VehicleTypes.Car, 3, VehicleDirections.Right, this.windowWidth)
             };
 
             var laneIndex = 0;
             foreach (var lane in lanes)
             {
-                this.setVehiclesToBeginningOfLane(lane, laneIndex);
+                foreach (var vehicle in lane)
+                {
+                    vehicle.Y = LaneOneLocation - LaneWidth * laneIndex;
+                }
 
                 if (lane.Direction == VehicleDirections.Right)
                 {
@@ -131,20 +160,9 @@ namespace FroggerStarter.Model
             }
         }
 
-        private void setVehiclesToBeginningOfLane(Lane lane, int laneIndex)
-        {
-            for (var vehicleIndex = 0; vehicleIndex < lane.Count; vehicleIndex++)
-            {
-                var vehicle = lane[vehicleIndex];
-                vehicle.Y = LaneOneLocation - LaneWidth * laneIndex;
-                vehicle.X = this.windowWidth / lane.Count * vehicleIndex - vehicle.Width;
-                if (vehicleIndex > 0)
-                {
-                    vehicle.Sprite.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Moves all vehicles according to their set direction and speed.
+        /// </summary>
         public void MoveAllVehicles()
         {
             foreach (var vehicle in this.vehicles)
@@ -175,7 +193,7 @@ namespace FroggerStarter.Model
         {
             if (vehicleHasCrossedLeftEdge(vehicle))
             {
-                this.respawnVehicleOnRight(vehicle); //TODO need code to add next vehicle to lane....possibly a timer on lane
+                this.respawnVehicle(vehicle);
             }
             else
             {
@@ -188,16 +206,11 @@ namespace FroggerStarter.Model
             return !(vehicle.X > 0 - vehicle.Sprite.Width);
         }
 
-        private void respawnVehicleOnRight(GameObject vehicle)
-        {
-            vehicle.X = this.windowWidth;
-        }
-
         private void moveVehicleRight(Vehicle vehicle)
         {
             if (this.vehicleHasCrossedRightEdge(vehicle))
             {
-                respawnVehicleOnLeft(vehicle);
+                this.respawnVehicle(vehicle);
             }
             else
             {
@@ -210,9 +223,17 @@ namespace FroggerStarter.Model
             return !(vehicle.X < this.windowWidth + vehicle.Sprite.Width);
         }
 
-        private static void respawnVehicleOnLeft(GameObject vehicle)
+        private void respawnVehicle(Vehicle vehicle)
         {
-            vehicle.X = 0 - vehicle.Sprite.Width;
+            if (vehicle.Direction == VehicleDirections.Left)
+            {
+                vehicle.X = this.windowWidth;
+            }
+            else
+            {
+                vehicle.X = 0 - vehicle.Sprite.Width;
+            }
+
         }
 
         /// <summary>
@@ -265,6 +286,22 @@ namespace FroggerStarter.Model
         public bool Remove(Vehicle vehicle)
         {
             return this.vehicles.Remove(vehicle);
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<Vehicle> GetEnumerator()
+        {
+            return this.vehicles.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         #endregion

@@ -9,17 +9,32 @@ namespace FroggerStarter.Model
     public class Vehicle : GameObject
     {
 
-        private double originalSpeed;
+        private readonly double originalSpeed;
 
+        /// <summary>
+        /// Gets the direction.
+        /// </summary>
+        /// <value>
+        /// The direction.
+        /// </value>
         public VehicleDirections Direction { get; }
+
+        /// <summary>
+        /// Gets or sets the speed.
+        /// </summary>
+        /// <value>
+        /// The speed.
+        /// </value>
         public double Speed { get => this.SpeedX; set => this.SpeedX = value; }
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vehicle" /> class.
+        /// Initializes a new instance of the <see cref="Vehicle" /> class.
         /// </summary>
         /// <param name="vehicleType">Type of the vehicle.</param>
+        /// <param name="direction">The direction.</param>
+        /// <param name="speed">The speed.</param>
         public Vehicle(VehicleTypes vehicleType, VehicleDirections direction, double speed)
         {
             if (vehicleType == VehicleTypes.Car)
@@ -36,6 +51,9 @@ namespace FroggerStarter.Model
             this.Speed = speed;
         }
 
+        /// <summary>
+        /// Resets the speed.
+        /// </summary>
         public void ResetSpeed()
         {
             this.Speed = this.originalSpeed;
