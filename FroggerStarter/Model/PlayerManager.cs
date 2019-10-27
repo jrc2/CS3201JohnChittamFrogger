@@ -14,7 +14,7 @@ namespace FroggerStarter.Model
         private const int BottomLaneOffset = 45;
         private const int PlayerMinX = 0;
         private const int PlayerMaxX = 600;
-        private const int PlayerMinY = 55;
+        private const int PlayerMinY = 95;
         private const int PlayerMaxY = 355;
         private const int AnimationDelay = 300;
         private readonly double windowHeight;
@@ -72,7 +72,7 @@ namespace FroggerStarter.Model
         #region Methods
 
         /// <summary>
-        ///     Displays player dying animation and resets player position
+        ///     Kills the player.
         /// </summary>
         public async Task<bool> KillPlayer()
         {
@@ -102,18 +102,11 @@ namespace FroggerStarter.Model
 
         /// <summary>
         ///     Sets the player speed to the given value.
-        ///     Precondition: speed greater than/= 0
         ///     Postcondition this.Player.SpeedX and SpeedY == speed
         /// </summary>
         /// <param name="speed">The speed.</param>
-        /// <exception cref="ArgumentOutOfRangeException">speed - speed must be at least 0</exception>
         public void SetPlayerSpeedTo(int speed)
         {
-            if (speed < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(speed), "speed must be at least 0");
-            }
-
             this.Player.SetSpeedTo(speed);
         }
 
@@ -164,15 +157,6 @@ namespace FroggerStarter.Model
             {
                 this.Player.MoveDown();
             }
-        }
-
-        /// <summary>
-        ///     Determines if player is at player minimum y value.
-        /// </summary>
-        /// <returns>true if player is at player minimum y value, false otherwise</returns>
-        public bool PlayerAtPlayerMinY()
-        {
-            return (int) this.Player.Y == PlayerMinY;
         }
 
         #endregion

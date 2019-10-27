@@ -35,10 +35,26 @@ namespace FroggerStarter.Controller
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GameManager" /> class.
-        ///     Postconition: GameManager initialized
         /// </summary>
-        public GameManager()
+        /// <param name="backgroundHeight">Height of the background.</param>
+        /// <param name="backgroundWidth">Width of the background.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     backgroundHeight &lt;= 0
+        ///     or
+        ///     backgroundWidth &lt;= 0
+        /// </exception>
+        public GameManager(double backgroundHeight, double backgroundWidth)
         {
+            if (backgroundHeight <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(backgroundHeight));
+            }
+
+            if (backgroundWidth <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(backgroundWidth));
+            }
+
             this.setupGameTimer();
             this.setupLifeTimer();
         }
@@ -251,49 +267,41 @@ namespace FroggerStarter.Controller
             this.checkIfPlayerScored();
         }
 
-        private void checkIfPlayerScored()
+        private void checkIfPlayerScored() //TODO this is messy
         {
+            var mainPlayerIsHome = false;
             var mainPlayerRectangle = createRectangleForSprite(this.playerManager.Player.Sprite);
 
-            if (this.playerManager.PlayerAtPlayerMinY())
+            if ((int) this.playerManager.Player.Y == 55) //TODO magic number, see const in PlayerManager
             {
-                if (!this.isPlayerInHomeLanding(mainPlayerRectangle))
+                foreach (var collapsedHomePlayer in this.getCollapsedHomePlayers())
+                {
+                    var homePlayerRectangle = createRectangleForSprite(collapsedHomePlayer.Sprite);
+                    if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
+                    {
+                        this.score += this.timeRemaining;
+                        this.onPlayerScoreUpdated();
+                        mainPlayerIsHome = true;
+                        collapsedHomePlayer.Sprite.Visibility = Visibility.Visible;
+                        if (this.getCollapsedHomePlayers().Count == 0)
+                        {
+                            this.onGameOver();
+                        }
+                        else
+                        {
+                            this.playerManager.SetPlayerToCenterOfBottomLane();
+                        }
+
+                        this.resetTimer();
+                        break;
+                    }
+                }
+
+                if (!mainPlayerIsHome)
                 {
                     this.MovePlayerDown();
                 }
             }
-        }
-
-        private bool isPlayerInHomeLanding(RectangleF mainPlayerRectangle)
-        {
-            foreach (var collapsedHomePlayer in this.getCollapsedHomePlayers())
-            {
-                var homePlayerRectangle = createRectangleForSprite(collapsedHomePlayer.Sprite);
-                if (mainPlayerRectangle.IntersectsWith(homePlayerRectangle))
-                {
-                    this.processPlayerInHomeLanding(collapsedHomePlayer);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void processPlayerInHomeLanding(Player collapsedHomePlayer)
-        {
-            this.score += this.timeRemaining;
-            this.onPlayerScoreUpdated();
-            collapsedHomePlayer.Sprite.Visibility = Visibility.Visible;
-            if (this.getCollapsedHomePlayers().Count == 0)
-            {
-                this.onGameOver();
-            }
-            else
-            {
-                this.playerManager.SetPlayerToCenterOfBottomLane();
-            }
-
-            this.resetTimer();
         }
 
         private void resetTimer()

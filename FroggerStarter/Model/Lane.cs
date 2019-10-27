@@ -31,24 +31,21 @@ namespace FroggerStarter.Model
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Lane" /> class.
-        ///     Precondition: maxNumVehicles greater than/= 0; speed greater than/= 0, windowWidth greater than 0
-        ///     Postcondition: LaneManager properties initialized
+        /// Initializes a new instance of the <see cref="Lane" /> class.
+        /// Precondition: maxNumVehicles greater than/= 0; speed greater than/= 0
+        /// Postcondition: LaneManager properties initialized
         /// </summary>
-        /// <param name="maxNumVehicles">The maximum number of vehicles.</param>
-        /// <param name="vehicleType">Type of the vehicle.</param>
-        /// <param name="speed">The speed.</param>
-        /// <param name="direction">The direction.</param>
+        /// <param name="maxNumVehicles">The number vehicles.</param>
+        /// <param name="vehicleType">Type of vehicles.</param>
+        /// <param name="speed">The Speed of all vehicles in lane.</param>
+        /// <param name="direction">The Direction of all vehicles in lane.</param>
         /// <param name="windowWidth">Width of the window.</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     maxNumVehicles - maxNumVehicles must be >= 0
-        ///     or
-        ///     speed - speed must be > 0
-        ///     or
-        ///     windowWidth - windowWidth must be > 0
+        /// maxNumVehicles - maxNumVehicles must be >= 0
+        /// or
+        /// speed - speed must be > 0
         /// </exception>
-        public Lane(int maxNumVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction,
-            double windowWidth)
+        public Lane(int maxNumVehicles, VehicleTypes vehicleType, double speed, VehicleDirections direction, double windowWidth)
         {
             if (maxNumVehicles < 0)
             {
@@ -58,11 +55,6 @@ namespace FroggerStarter.Model
             if (speed < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(speed), "speed must be > 0");
-            }
-
-            if (windowWidth <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(windowWidth), "windowWidth must be > 0");
             }
 
             this.Direction = direction;
@@ -81,13 +73,11 @@ namespace FroggerStarter.Model
 
         #endregion
 
-        #region Methods
-
         /// <summary>
-        ///     Returns an enumerator that iterates through the collection.
+        /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        ///     An enumerator that can be used to iterate through the collection.
+        /// An enumerator that can be used to iterate through the collection.
         /// </returns>
         public IEnumerator<Vehicle> GetEnumerator()
         {
@@ -98,7 +88,5 @@ namespace FroggerStarter.Model
         {
             return this.GetEnumerator();
         }
-
-        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -15,39 +16,34 @@ namespace FroggerStarter.Model
     {
         #region Data members
 
+        private DispatcherTimer vehicleActionTimer;
+        private readonly Random random;
         private const int LaneOneLocation = 305;
         private const int LaneWidth = 50;
         private const double SpeedToAddOnTick = 0;
         private const double TransformOriginX = 0.5;
         private const double TransformOriginY = 0.5;
-
-        private DispatcherTimer vehicleActionTimer;
-        private readonly Random random;
         private readonly IList<Vehicle> vehicles = new List<Vehicle>();
         private readonly double windowWidth;
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
-        ///     Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
+        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
         /// </summary>
         public int Count => this.vehicles.Count;
 
         /// <summary>
-        ///     Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
+        /// Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1"></see> is read-only.
         /// </summary>
         public bool IsReadOnly => this.vehicles.IsReadOnly;
 
         /// <summary>
-        ///     Gets or sets the <see cref="Vehicle" /> at the specified index.
+        /// Gets or sets the <see cref="Vehicle"/> at the specified index.
         /// </summary>
         /// <value>
-        ///     The <see cref="Vehicle" />.
+        /// The <see cref="Vehicle"/>.
         /// </value>
         /// <param name="index">The index.</param>
-        /// <returns>the <see cref="Vehicle" /> at the specified index</returns>
+        /// <returns></returns>
         public Vehicle this[int index]
         {
             get => this.vehicles[index];
@@ -65,11 +61,6 @@ namespace FroggerStarter.Model
         /// </summary>
         /// <param name="windowHeight">Height of the window.</param>
         /// <param name="windowWidth">Width of the window.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     windowHeight - windowHeight must be >= 0
-        ///     or
-        ///     windowWidth - windowWidth must be >= 0
-        /// </exception>
         public Road(double windowHeight, double windowWidth)
         {
             if (windowHeight < 0)
@@ -88,112 +79,6 @@ namespace FroggerStarter.Model
             this.setupVehicleActionTimer();
         }
 
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        ///     Finds the index of the given vehicle in this.vehicles
-        /// </summary>
-        /// <param name="vehicle">The vehicle.</param>
-        /// <returns>The index of the vehicle if found in vehicles; otherwise, -1.</returns>
-        public int IndexOf(Vehicle vehicle)
-        {
-            return this.vehicles.IndexOf(vehicle);
-        }
-
-        /// <summary>
-        ///     Inserts the specified vehicle at the given index.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <param name="vehicle">The vehicle.</param>
-        public void Insert(int index, Vehicle vehicle)
-        {
-            this.vehicles.Insert(index, vehicle);
-        }
-
-        /// <summary>
-        ///     Removes the <see cref="T:System.Collections.Generic.IList`1"></see> item at the specified index.
-        /// </summary>
-        /// <param name="index">The zero-based index of the item to remove.</param>
-        public void RemoveAt(int index)
-        {
-            this.vehicles.RemoveAt(index);
-        }
-
-        /// <summary>
-        ///     Adds the specified vehicle.
-        /// </summary>
-        /// <param name="vehicle">The vehicle.</param>
-        public void Add(Vehicle vehicle)
-        {
-            this.vehicles.Add(vehicle);
-        }
-
-        /// <summary>
-        ///     Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"></see>.
-        /// </summary>
-        public void Clear()
-        {
-            this.vehicles.Clear();
-        }
-
-        /// <summary>
-        ///     Determines whether this instance contains the object.
-        /// </summary>
-        /// <param name="vehicle">The vehicle.</param>
-        /// <returns>
-        ///     <c>true</c> if [contains] [the specified vehicle]; otherwise, <c>false</c>.
-        /// </returns>
-        public bool Contains(Vehicle vehicle)
-        {
-            return this.vehicles.Contains(vehicle);
-        }
-
-        /// <summary>
-        ///     Copies the elements of the <see cref="T:System.Collections.Generic.ICollection`1"></see> to an
-        ///     <see cref="T:System.Array"></see>, starting at a particular <see cref="T:System.Array"></see> index.
-        /// </summary>
-        /// <param name="array">
-        ///     The one-dimensional <see cref="T:System.Array"></see> that is the destination of the elements
-        ///     copied from <see cref="T:System.Collections.Generic.ICollection`1"></see>. The <see cref="T:System.Array"></see>
-        ///     must have zero-based indexing.
-        /// </param>
-        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(Vehicle[] array, int arrayIndex)
-        {
-            this.vehicles.CopyTo(array, arrayIndex);
-        }
-
-        /// <summary>
-        ///     Removes the specified vehicle.
-        /// </summary>
-        /// <param name="vehicle">The vehicle.</param>
-        /// <returns>
-        ///     true if item was successfully removed from vehicles; otherwise, false.
-        ///     This method also returns false if item is not found in the vehicles.
-        /// </returns>
-        public bool Remove(Vehicle vehicle)
-        {
-            return this.vehicles.Remove(vehicle);
-        }
-
-        /// <summary>
-        ///     Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        ///     An enumerator that can be used to iterate through the collection.
-        /// </returns>
-        public IEnumerator<Vehicle> GetEnumerator()
-        {
-            return this.vehicles.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
         private void setupVehicleActionTimer()
         {
             this.vehicleActionTimer = new DispatcherTimer();
@@ -202,13 +87,16 @@ namespace FroggerStarter.Model
             this.vehicleActionTimer.Start();
         }
 
+        #endregion
+
+        #region Methods
+
         private void vehicleActionTimerOnTick(object sender, object e)
         {
-            var collapsedVehicles = this.vehicles.Where(vehicle => vehicle.Sprite.Visibility == Visibility.Collapsed)
-                                        .ToList();
+            var collapsedVehicles = this.vehicles.Where(vehicle => vehicle.Sprite.Visibility == Visibility.Collapsed).ToList();
             if (collapsedVehicles.Count > 0)
             {
-                var randomVehicleIndex = this.random.Next(0, collapsedVehicles.Count);
+                var randomVehicleIndex = this.random.Next(0, collapsedVehicles.Count());
                 collapsedVehicles.ElementAt(randomVehicleIndex).Sprite.Visibility = Visibility.Visible;
             }
 
@@ -242,28 +130,24 @@ namespace FroggerStarter.Model
                 new Lane(5, VehicleTypes.Car, 3, VehicleDirections.Right, this.windowWidth)
             };
 
-            for (var i = 0; i < lanes.Count; i++)
+            var laneIndex = 0;
+            foreach (var lane in lanes)
             {
-                var lane = lanes[i];
-                this.addVehicleToRoad(lane, i);
-            }
-        }
+                foreach (var vehicle in lane)
+                {
+                    vehicle.Y = LaneOneLocation - LaneWidth * laneIndex;
+                }
 
-        private void addVehicleToRoad(Lane lane, int laneIndex)
-        {
-            foreach (var vehicle in lane)
-            {
-                vehicle.Y = LaneOneLocation - LaneWidth * laneIndex;
-            }
+                if (lane.Direction == VehicleDirections.Right)
+                {
+                    rotateVehiclesInLane180Degrees(lane);
+                }
 
-            if (lane.Direction == VehicleDirections.Right)
-            {
-                rotateVehiclesInLane180Degrees(lane);
-            }
-
-            foreach (var vehicle in lane)
-            {
-                this.vehicles.Add(vehicle);
+                laneIndex++;
+                foreach (var vehicle in lane)
+                {
+                    this.vehicles.Add(vehicle);
+                }
             }
         }
 
@@ -277,7 +161,7 @@ namespace FroggerStarter.Model
         }
 
         /// <summary>
-        ///     Moves all vehicles according to their set direction and speed.
+        /// Moves all vehicles according to their set direction and speed.
         /// </summary>
         public void MoveAllVehicles()
         {
@@ -291,6 +175,7 @@ namespace FroggerStarter.Model
         ///     Moves the vehicle.
         ///     Postcondition: vehicle has moved
         /// </summary>
+        /// <param name="lane">The lane the vehicle is in.</param>
         /// <param name="vehicle">The vehicle to move.</param>
         public void MoveVehicle(Vehicle vehicle)
         {
@@ -348,11 +233,12 @@ namespace FroggerStarter.Model
             {
                 vehicle.X = 0 - vehicle.Sprite.Width;
             }
+
         }
 
         /// <summary>
         ///     Resets the vehicle speeds.
-        ///     Postcondition: all vehicle speeds reset
+        ///     Postcondition: all lane speeds in this.lanes reset
         /// </summary>
         public void ResetVehicleSpeeds()
         {
@@ -360,6 +246,62 @@ namespace FroggerStarter.Model
             {
                 vehicle.ResetSpeed();
             }
+        }
+
+        public int IndexOf(Vehicle vehicle)
+        {
+            return this.vehicles.IndexOf(vehicle);
+        }
+
+        public void Insert(int index, Vehicle vehicle)
+        {
+            this.vehicles.Insert(index, vehicle);
+        }
+
+        public void RemoveAt(int index)
+        {
+            this.vehicles.RemoveAt(index);
+        }
+
+        public void Add(Vehicle vehicle)
+        {
+            this.vehicles.Add(vehicle);
+        }
+
+        public void Clear()
+        {
+            this.vehicles.Clear();
+        }
+
+        public bool Contains(Vehicle vehicle)
+        {
+            return this.vehicles.Contains(vehicle);
+        }
+
+        public void CopyTo(Vehicle[] array, int arrayIndex)
+        {
+            this.vehicles.CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(Vehicle vehicle)
+        {
+            return this.vehicles.Remove(vehicle);
+        }
+
+        /// <summary>
+        ///     Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the collection.
+        /// </returns>
+        public IEnumerator<Vehicle> GetEnumerator()
+        {
+            return this.vehicles.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
 
         #endregion
