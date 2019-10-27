@@ -100,10 +100,15 @@ namespace FroggerStarter.Controller
             this.lifeTimer.Start();
         }
 
-        private void lifeTimerOnTick(object sender, object e)
+        private async void lifeTimerOnTick(object sender, object e)
         {
-            this.timeRemaining--; //TODO add check for timer at 0
+            this.timeRemaining--;
             this.onTimeRemainingUpdated();
+            if (this.timeRemaining == 0)
+            {
+                await this.killPlayer();
+                this.resetTimer();
+            }
         }
 
         /// <summary>
@@ -169,18 +174,20 @@ namespace FroggerStarter.Controller
 
             if (vehicleRectangle.IntersectsWith(playerRectangle))
             {
-                await this.processCollision();
+                await this.killPlayer();
             }
         }
 
-        private async Task processCollision()
+        private async Task killPlayer()
         {
             this.mainGameTimer.Stop();
+            this.lifeTimer.Stop();
             await this.playerManager.KillPlayer();
             this.collapseAllVehicles();
             this.lives--;
             this.onPlayerLivesUpdated();
             this.mainGameTimer.Start();
+            this.lifeTimer.Start();
             this.resetLanes();
             this.roadManager.ResetLaneSpeeds();
         }
