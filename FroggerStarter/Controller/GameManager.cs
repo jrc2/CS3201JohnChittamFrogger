@@ -139,38 +139,26 @@ namespace FroggerStarter.Controller
 
         private void addVehiclesToCanvas()
         {
-            foreach (var lane in this.roadManager)
+            foreach (var vehicle in this.roadManager)
             {
-                foreach (var vehicle in lane)
-                {
-                    this.gameCanvas.Children.Add(vehicle.Sprite);
-                }
+                this.gameCanvas.Children.Add(vehicle.Sprite);
             }
         }
 
         private void mainGameTimerOnTick(object sender, object e)
         {
-            foreach (var lane in this.roadManager)
+            this.roadManager.MoveAllVehicles();
+            foreach (var vehicle in this.roadManager)
             {
-                this.moveVehiclesInLane(lane);
+                if (vehicle.Sprite.Visibility == Visibility.Visible)
+                {
+                    this.checkForCollision(vehicle);
+                }
             }
 
             if (this.lives == 0)
             {
                 this.onGameOver();
-            }
-        }
-
-        private void moveVehiclesInLane(Lane lane)
-        {
-            foreach (var vehicle in lane)
-            {
-                this.roadManager.MoveVehicle(lane, vehicle);
-
-                if (vehicle.Sprite.Visibility == Visibility.Visible)
-                {
-                    this.checkForCollision(vehicle);
-                }
             }
         }
 
@@ -196,18 +184,16 @@ namespace FroggerStarter.Controller
             this.mainGameTimer.Start();
             this.lifeTimer.Start();
             this.resetLanes();
-            this.roadManager.ResetLaneSpeeds();
+            this.roadManager.ResetVehicleSpeeds();
         }
 
         private void resetLanes()
         {
             this.roadManager.ResetLanes();
-            foreach (var lane in this.roadManager)
+            foreach (var vehicle in this.roadManager)
             {
-                foreach (var vehicle in lane)
-                {
-                    this.gameCanvas.Children.Add(vehicle.Sprite);
-                }
+                this.gameCanvas.Children.Remove(vehicle.Sprite);
+                this.gameCanvas.Children.Add(vehicle.Sprite);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -10,7 +11,7 @@ namespace FroggerStarter.Model
     /// <summary>
     ///     Manages all lanes on the road
     /// </summary>
-    public class Road : IEnumerable<Lane>
+    public class Road : IList<Vehicle>
     {
         #region Data members
 
@@ -19,8 +20,18 @@ namespace FroggerStarter.Model
         private const double SpeedToAddOnRespawn = 0;
         private const double TransformOriginX = 0.5;
         private const double TransformOriginY = 0.5;
-        private IEnumerable<Lane> lanes;
+        private IList<Vehicle> vehicles = new List<Vehicle>();
         private readonly double windowWidth;
+
+        public int Count => this.vehicles.Count;
+
+        public bool IsReadOnly => this.vehicles.IsReadOnly;
+
+        public Vehicle this[int index]
+        {
+            get => this.vehicles[index];
+            set => this.vehicles[index] = value;
+        }
 
         #endregion
 
@@ -59,9 +70,9 @@ namespace FroggerStarter.Model
         /// <returns>
         ///     An enumerator that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<Lane> GetEnumerator()
+        public IEnumerator<Vehicle> GetEnumerator()
         {
-            return this.lanes.GetEnumerator();
+            return this.vehicles.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -74,21 +85,18 @@ namespace FroggerStarter.Model
         /// </summary>
         public void CollapseAllVehicles()
         {
-            foreach (var lane in this.lanes)
+            foreach (var vehicle in this.vehicles)
             {
-                foreach (var vehicle in lane)
-                {
-                    vehicle.Sprite.Visibility = Visibility.Collapsed;
-                }
+                vehicle.Sprite.Visibility = Visibility.Collapsed;
             }
         }
 
         /// <summary>
         ///     Resets the lanes to beginning of game formation.
         /// </summary>
-        public void ResetLanes()
+        public void ResetLanes() //TODO refactor
         {
-            this.lanes = new List<Lane> {
+            var lanes = new List<Lane> {
                 new Lane(3, VehicleTypes.Car, 2, VehicleDirections.Left),
                 new Lane(2, VehicleTypes.Semi, 2.2, VehicleDirections.Right),
                 new Lane(4, VehicleTypes.Car, 2.6, VehicleDirections.Left),
@@ -97,7 +105,7 @@ namespace FroggerStarter.Model
             };
 
             var laneIndex = 0;
-            foreach (var lane in this.lanes)
+            foreach (var lane in lanes)
             {
                 this.setVehiclesToBeginningOfLane(lane, laneIndex);
 
@@ -107,6 +115,10 @@ namespace FroggerStarter.Model
                 }
 
                 laneIndex++;
+                foreach (var vehicle in lane)
+                {
+                    this.vehicles.Add(vehicle);
+                }
             }
         }
 
@@ -119,17 +131,25 @@ namespace FroggerStarter.Model
             }
         }
 
-        private void setVehiclesToBeginningOfLane(Lane lane, int currLane)
+        private void setVehiclesToBeginningOfLane(Lane lane, int laneIndex)
         {
             for (var vehicleIndex = 0; vehicleIndex < lane.Count; vehicleIndex++)
             {
                 var vehicle = lane[vehicleIndex];
-                vehicle.Y = LaneOneLocation - LaneWidth * currLane;
+                vehicle.Y = LaneOneLocation - LaneWidth * laneIndex;
                 vehicle.X = this.windowWidth / lane.Count * vehicleIndex - vehicle.Width;
                 if (vehicleIndex > 0)
                 {
                     vehicle.Sprite.Visibility = Visibility.Collapsed;
                 }
+            }
+        }
+
+        public void MoveAllVehicles()
+        {
+            foreach (var vehicle in this.vehicles)
+            {
+                this.MoveVehicle(vehicle);
             }
         }
 
@@ -139,28 +159,23 @@ namespace FroggerStarter.Model
         /// </summary>
         /// <param name="lane">The lane the vehicle is in.</param>
         /// <param name="vehicle">The vehicle to move.</param>
-        public void MoveVehicle(Lane lane, Vehicle vehicle)
+        public void MoveVehicle(Vehicle vehicle)
         {
-            if (lane.Direction == VehicleDirections.Right)
+            if (vehicle.Direction == VehicleDirections.Right)
             {
-                this.moveVehicleRight(lane, vehicle);
+                this.moveVehicleRight(vehicle);
             }
             else
             {
-                this.moveVehicleLeft(lane, vehicle);
+                this.moveVehicleLeft(vehicle);
             }
         }
 
-        private void moveVehicleLeft(Lane lane, Vehicle vehicle)
+        private void moveVehicleLeft(Vehicle vehicle)
         {
             if (vehicleHasCrossedLeftEdge(vehicle))
             {
-                this.respawnVehicleOnRight(vehicle);
-                if (lane.IndexOf(vehicle) == lane.Count - 1)
-                {
-                    lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
-                    lane.DisplayNextVehicle();
-                }
+                this.respawnVehicleOnRight(vehicle); //TODO need code to add next vehicle to lane....possibly a timer on lane
             }
             else
             {
@@ -178,16 +193,11 @@ namespace FroggerStarter.Model
             vehicle.X = this.windowWidth;
         }
 
-        private void moveVehicleRight(Lane lane, Vehicle vehicle)
+        private void moveVehicleRight(Vehicle vehicle)
         {
             if (this.vehicleHasCrossedRightEdge(vehicle))
             {
                 respawnVehicleOnLeft(vehicle);
-                if (lane.IndexOf(vehicle) == lane.Count - 1)
-                {
-                    lane.IncreaseSpeedBy(SpeedToAddOnRespawn);
-                    lane.DisplayNextVehicle();
-                }
             }
             else
             {
@@ -206,15 +216,55 @@ namespace FroggerStarter.Model
         }
 
         /// <summary>
-        ///     Resets the lane speeds.
+        ///     Resets the vehicle speeds.
         ///     Postcondition: all lane speeds in this.lanes reset
         /// </summary>
-        public void ResetLaneSpeeds()
+        public void ResetVehicleSpeeds()
         {
-            foreach (var lane in this.lanes)
+            foreach (var vehicle in this.vehicles)
             {
-                lane.ResetSpeed();
+                vehicle.ResetSpeed();
             }
+        }
+
+        public int IndexOf(Vehicle vehicle)
+        {
+            return this.vehicles.IndexOf(vehicle);
+        }
+
+        public void Insert(int index, Vehicle vehicle)
+        {
+            this.vehicles.Insert(index, vehicle);
+        }
+
+        public void RemoveAt(int index)
+        {
+            this.vehicles.RemoveAt(index);
+        }
+
+        public void Add(Vehicle vehicle)
+        {
+            this.vehicles.Add(vehicle);
+        }
+
+        public void Clear()
+        {
+            this.vehicles.Clear();
+        }
+
+        public bool Contains(Vehicle vehicle)
+        {
+            return this.vehicles.Contains(vehicle);
+        }
+
+        public void CopyTo(Vehicle[] array, int arrayIndex)
+        {
+            this.vehicles.CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(Vehicle vehicle)
+        {
+            return this.vehicles.Remove(vehicle);
         }
 
         #endregion

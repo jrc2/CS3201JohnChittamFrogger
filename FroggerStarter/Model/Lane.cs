@@ -81,7 +81,7 @@ namespace FroggerStarter.Model
 
             for (var i = 0; i < maxNumVehicles; i++)
             {
-                this.vehicles.Add(new Vehicle(vehicleType) {SpeedX = speed});
+                this.vehicles.Add(new Vehicle(vehicleType, direction, speed));
             }
         }
 
