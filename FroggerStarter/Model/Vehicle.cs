@@ -9,12 +9,6 @@ namespace FroggerStarter.Model
     /// <seealso cref="FroggerStarter.Model.GameObject" />
     public class Vehicle : GameObject
     {
-        #region Data members
-
-        private readonly double originalSpeed;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -24,6 +18,14 @@ namespace FroggerStarter.Model
         ///     The direction.
         /// </value>
         public VehicleDirections Direction { get; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [needs to be visible].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [needs to be visible]; otherwise, <c>false</c>.
+        /// </value>
+        public bool NeedsToBeMadeVisible { get; set; }
 
         /// <summary>
         ///     Gets or sets the speed.
@@ -66,20 +68,8 @@ namespace FroggerStarter.Model
             }
 
             this.Direction = direction;
-            this.originalSpeed = speed;
             this.Speed = speed;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        ///     Resets the speed.
-        /// </summary>
-        public void ResetSpeed()
-        {
-            this.Speed = this.originalSpeed;
+            this.NeedsToBeMadeVisible = false;
         }
 
         #endregion

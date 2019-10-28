@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using FroggerStarter.Model;
-using FroggerStarter.View.Sprites;
 
 namespace FroggerStarter.Controller
 {
@@ -166,7 +165,7 @@ namespace FroggerStarter.Controller
             this.lives--;
             this.onPlayerLivesUpdated();
             this.startTimers();
-            this.resetLanes();
+            this.roadManager.ResetVehicleVisibility();
             this.roadManager.ResetVehicleSpeeds();
         }
 
@@ -182,15 +181,6 @@ namespace FroggerStarter.Controller
             this.mainGameTimer.Stop();
             this.lifeTimer.Stop();
             this.roadManager.StopVehicleActionTimer();
-        }
-
-        private void resetLanes()
-        {
-            this.roadManager.ResetLanes();
-            foreach (var vehicle in this.roadManager)
-            {
-                this.gameCanvas.Children.Add(vehicle.Sprite);
-            }
         }
 
         private static RectangleF createRectangleForSprite(FrameworkElement sprite)
@@ -290,7 +280,7 @@ namespace FroggerStarter.Controller
             return false;
         }
 
-        private void processPlayerInHomeLanding(Player collapsedHomePlayer)
+        private void processPlayerInHomeLanding(GameObject collapsedHomePlayer)
         {
             this.score += this.timeRemaining;
             this.onPlayerScoreUpdated();
